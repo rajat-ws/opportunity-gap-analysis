@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -27,6 +26,28 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
     competitorUrls: ["", ""],
     email: "",
   });
+  const [mascotSrc, setMascotSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    
+    const loadMascot = async () => {
+      // load only when needed
+      if (window.innerWidth >= 1396 && !mascotSrc) {
+        const module = await import("../../public/images/mascot.png");
+        if (mounted) {
+          setMascotSrc(module.default);
+        }
+      }
+    };
+
+    loadMascot();
+    window.addEventListener('resize', loadMascot);
+    return () => {
+      mounted = false;
+      window.removeEventListener('resize', loadMascot);
+    };
+  }, [mascotSrc]);
 
   const addCompetitorUrl = () => {
     setFormData(prev => ({
@@ -48,8 +69,8 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
   };
 
   return (
-    <div className="min-h-screen gradient-bg flex items-center justify-center p-6">
-      <div className="w-full max-w-4xl">
+    <div className="min-h-screen gradient-bg flex items-center justify-center p-6 overflow-x-hidden relative">
+      <div className="w-full md:w-[777px] max-w-4xl">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
             Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">Market Opportunity</span>
@@ -162,7 +183,14 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
         </div>
 
         {/* Character illustration placeholder */}
-        <div className="fixed bottom-0 right-8 w-32 h-40 bg-gradient-to-t from-purple-600 to-purple-400 rounded-t-full opacity-20 hidden lg:block"></div>
+        {mascotSrc && (
+          <img 
+            src={mascotSrc} 
+            alt=""
+            aria-hidden="true"
+            className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden [@media(min-width:1396px)]:block" 
+          />
+        )}
       </div>
     </div>
   );
