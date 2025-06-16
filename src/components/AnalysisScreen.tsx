@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import { BarChart3 } from "lucide-react";
+import { useEffect, useState } from "react";
+import AnalyticalSkillGif from "../../public/gifs/analytical-skill.gif";
+import SeoGif from "../../public/gifs/seo.gif";
+import GreenTickCircle from "../../public/svg/green-tick-circle.svg";
 import AnalysisChipSet from "./AnalysisChipSet";
-import GreenTickCircle from "../../public/svg/green-tick-circle.svg"
-import SeoGif from "../../public/gifs/seo.gif"
-import AnalyticalSkillGif from "../../public/gifs/analytical-skill.gif"
 
 const getGifAsPerCurrentStep = (currentStep: number): string => {
   // currently the gifs are being alternated. maybe in future a different gif will be provided for each index
@@ -42,13 +41,13 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
     }, 4000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [analysisItems.length, isAnalysisComplete]);
 
   return (
-    <div className="min-h-screen gradient-bg p-6 flex flex-col items-center gap-y-16">
+    <div className="min-h-screen  analysis-bg p-6 flex flex-col items-center gap-y-16">
       <div className="flex flex-col items-center">
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-          Find Your{" "}
+          Find Your
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
             Market Opportunity
           </span>

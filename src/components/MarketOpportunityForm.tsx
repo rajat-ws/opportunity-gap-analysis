@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
-import Arrow from "../../public/svg/arrow.svg"
+import { useEffect, useState } from "react";
+import Arrow from "../../public/svg/arrow.svg";
 
 interface FormData {
   marketSegment: string;
@@ -70,13 +70,21 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
   };
 
   return (
-    <div className="min-h-screen gradient-bg flex items-center justify-center p-6 overflow-x-hidden relative">
+    <div className="min-h-screen home-bg flex items-center justify-center p-6 overflow-x-hidden relative">
+      {/* Gradient Overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background: "radial-gradient(ellipse at 80% 20%,rgb(29, 23, 37) 50%,rgb(19, 19, 18) 70%, transparent 90%), linear-gradient(135deg, #000 10%, transparent 60%)",
+          opacity: 0.85,
+        }}
+      />
       <div className="w-full md:w-[777px] max-w-4xl">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
             Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">Market Opportunity</span>
           </h1>
-          <p className="text-gray-300 text-lg">
+          <p className="text-white/80 text-[18px]">
             Wednesday has helped over 50 digital first companies achieve PMF.
           </p>
         </div>
@@ -89,7 +97,6 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
                 placeholder="e.g., Health & Wellness"
                 value={formData.marketSegment}
                 onChange={(e) => setFormData(prev => ({ ...prev, marketSegment: e.target.value }))}
-                className="bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 h-12"
                 required
               />
             </div>
@@ -100,7 +107,6 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
                 placeholder="e.g., Tech Savvy aged between 20-30"
                 value={formData.userPersona}
                 onChange={(e) => setFormData(prev => ({ ...prev, userPersona: e.target.value }))}
-                className="bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 h-12"
                 required
               />
             </div>
@@ -113,20 +119,20 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
                 placeholder="Enter business problems"
                 value={formData.problemSolving}
                 onChange={(e) => setFormData(prev => ({ ...prev, problemSolving: e.target.value }))}
-                className="bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 min-h-[120px] resize-none"
+                className="min-h-[120px] resize-none"
                 required
               />
             </div>
 
             <div className="space-y-3">
-              <label className="text-white font-medium">
-                What features do you have in mind? <span className="text-gray-400">[Optional]</span>
+              <label className="text-white font-medium flex justify-between">
+                What features do you have in mind? <span>[Optional]</span>
               </label>
               <Textarea
                 placeholder="Enter optional feature sets"
                 value={formData.features}
                 onChange={(e) => setFormData(prev => ({ ...prev, features: e.target.value }))}
-                className="bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 min-h-[120px] resize-none"
+                className="min-h-[120px] resize-none"
               />
             </div>
           </div>
@@ -140,14 +146,14 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
                   placeholder={`Enter Competitor URL ${index + 1}`}
                   value={url}
                   onChange={(e) => updateCompetitorUrl(index, e.target.value)}
-                  className="bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 h-12 flex-1 min-w-[250px]"
+                  className="h-12 flex-1 min-w-[250px]"
                 />
               ))}
               <Button
                 type="button"
                 onClick={addCompetitorUrl}
                 variant="outline"
-                className="border-gray-700 text-white hover:bg-gray-800 h-12 px-6"
+                className="h-12 px-6 bg-black border border-[#dee0e399] hover:bg-[#2f2f30] hover:text-white"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add more
@@ -161,8 +167,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
               type="email"
               placeholder="Email address"
               value={formData.email}
-              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-              className="bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 h-12"
+              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}  
               required
             />
           </div>
@@ -182,7 +187,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
 
         <div className="text-center mt-12">
           <p className="text-gray-300">
-            Wednesday has helped over 50 digital first companies achieve PMF.
+            Wednesday has helped <span className="text-[#BDA2F4]">over 50 digital first companies </span> achieve PMF.
           </p>
         </div>
 

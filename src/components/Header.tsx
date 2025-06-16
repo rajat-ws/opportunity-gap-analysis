@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 
 const Header = () => {
   return (
-    <header className="bg-background border-b border-border px-6 py-4">
+    <header className="bg-black border-b border-border px-6 py-4">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
