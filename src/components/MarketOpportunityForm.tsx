@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
-import Mascot from "../../public/images/mascot.png"
 
 interface FormData {
   marketSegment: string;
@@ -27,6 +26,28 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
     competitorUrls: ["", ""],
     email: "",
   });
+  const [mascotSrc, setMascotSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    
+    const loadMascot = async () => {
+      // load only when needed
+      if (window.innerWidth >= 1396 && !mascotSrc) {
+        const module = await import("../../public/images/mascot.png");
+        if (mounted) {
+          setMascotSrc(module.default);
+        }
+      }
+    };
+
+    loadMascot();
+    window.addEventListener('resize', loadMascot);
+    return () => {
+      mounted = false;
+      window.removeEventListener('resize', loadMascot);
+    };
+  }, [mascotSrc]);
 
   const addCompetitorUrl = () => {
     setFormData(prev => ({
@@ -162,11 +183,13 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
         </div>
 
         {/* Character illustration placeholder */}
-        <img 
-          src={Mascot} 
-          alt="A confident man with a purple coat, beard, mustache, and glasses, smiling while looking at the horizon with his arms crossed" 
-          className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden min-[1396px]:block" 
-        />
+        {mascotSrc && (
+          <img 
+            src={mascotSrc} 
+            alt="A confident man with a purple coat, beard, mustache, and glasses, smiling while looking at the horizon with his arms crossed" 
+            className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden min-[1396px]:block" 
+          />
+        )}
       </div>
     </div>
   );
