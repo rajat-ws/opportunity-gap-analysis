@@ -154,7 +154,6 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
               variant="primary"
               size="primary"
               font="primary"
-              className="mt-8"
             >
               Next
             </Button>
