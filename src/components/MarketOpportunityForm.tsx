@@ -70,7 +70,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
 
   return (
     <div className="min-h-screen gradient-bg flex items-center justify-center p-6 overflow-x-hidden relative">
-      <div className="w-[777px] max-w-4xl">
+      <div className="w-full md:w-[777px] max-w-4xl">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
             Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">Market Opportunity</span>
@@ -186,8 +186,9 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
         {mascotSrc && (
           <img 
             src={mascotSrc} 
-            alt="A confident man with a purple coat, beard, mustache, and glasses, smiling while looking at the horizon with his arms crossed" 
-            className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden min-[1396px]:block" 
+            alt=""
+            aria-hidden="true"
+            className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden [@media(min-width:1396px)]:block" 
           />
         )}
       </div>
