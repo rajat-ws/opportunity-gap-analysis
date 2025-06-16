@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
+import Arrow from "../../public/svg/arrow.svg"
 
 interface FormData {
   marketSegment: string;
@@ -80,7 +81,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-y-8 items-stretch">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
               <label className="text-white font-medium">What is your market segment?</label>
@@ -166,14 +167,17 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
             />
           </div>
 
-          <div className="flex justify-center pt-8">
             <Button
               type="submit"
-              className="purple-gradient text-white px-12 py-4 text-lg font-medium hover:opacity-90 transition-opacity min-w-[200px]"
+              icon={
+                <img src={Arrow} alt="arrow-icon" className="w-10 h-10" />
+              }
+              variant="primary"
+              size="primary"
+              font="primary"
             >
               Next
             </Button>
-          </div>
         </form>
 
         <div className="text-center mt-12">
