@@ -1,8 +1,8 @@
 
-import { useState } from "react";
+import AnalysisScreen from "@/components/AnalysisScreen";
 import Header from "@/components/Header";
 import MarketOpportunityForm from "@/components/MarketOpportunityForm";
-import AnalysisScreen from "@/components/AnalysisScreen";
+import { useState } from "react";
 
 interface FormData {
   marketSegment: string;
@@ -40,7 +40,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
       {renderCurrentStep()}
     </div>

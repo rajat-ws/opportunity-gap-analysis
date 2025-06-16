@@ -1,7 +1,6 @@
-
-import { useState, useEffect } from "react";
-import { Clock, BarChart3, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BarChart3, Clock, Download } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface AnalysisItem {
   id: string;
@@ -54,7 +53,7 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
   };
 
   return (
-    <div className="min-h-screen gradient-bg flex items-center justify-center p-6">
+    <div className="min-h-screen analysis-bg flex items-center justify-center p-6">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-8">
           <div className="text-center lg:text-left">
