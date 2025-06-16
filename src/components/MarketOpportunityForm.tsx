@@ -71,6 +71,14 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
 
   return (
     <div className="min-h-screen home-bg flex items-center justify-center p-6 overflow-x-hidden relative">
+      {/* Gradient Overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background: "radial-gradient(ellipse at 80% 20%,rgb(29, 23, 37) 50%,rgb(19, 19, 18) 70%, transparent 90%), linear-gradient(135deg, #000 10%, transparent 60%)",
+          opacity: 0.85,
+        }}
+      />
       <div className="w-full md:w-[777px] max-w-4xl">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
@@ -145,7 +153,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
                 type="button"
                 onClick={addCompetitorUrl}
                 variant="outline"
-                className="h-12 px-6 bg-black border border-[rgba(222,224,227,0.6)] hover:bg-[#2f2f30] hover:text-white"
+                className="h-12 px-6 bg-black border border-[#dee0e399] hover:bg-[#2f2f30] hover:text-white"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add more
