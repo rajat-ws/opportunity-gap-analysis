@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Header from "@/components/Header";
+
 import MarketOpportunityForm from "@/components/MarketOpportunityForm";
 import AnalysisScreen from "@/components/AnalysisScreen";
 
@@ -13,7 +13,7 @@ interface FormData {
 }
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState<"form" | "analysis">("analysis");
+  const [currentStep, setCurrentStep] = useState<"form" | "analysis">("form");
   const [formData, setFormData] = useState<FormData | null>(null);
 
   const handleFormSubmit = (data: FormData) => {
@@ -40,7 +40,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       {renderCurrentStep()}
     </div>
   );
