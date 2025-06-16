@@ -60,7 +60,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-y-8 items-stretch">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
               <label className="text-white font-medium">What is your market segment?</label>
@@ -146,20 +146,18 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
             />
           </div>
 
-          <div className="flex justify-center pt-8">
             <Button
               type="submit"
               icon={
-                <img src={Arrow} alt="arrow-icon" className="size-10" />
+                <img src={Arrow} alt="arrow-icon" className="w-10 h-10" />
               }
               variant="primary"
               size="primary"
               font="primary"
-              className="w-full"
+              className="mt-8"
             >
               Next
             </Button>
-          </div>
         </form>
 
         <div className="text-center mt-12">
