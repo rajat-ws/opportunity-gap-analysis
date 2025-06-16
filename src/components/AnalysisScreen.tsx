@@ -65,7 +65,6 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
               <div className="flex items-center gap-x-[14px]">
                 <img
                   src={GreenTickCircle}
-                  alt="green tick circle icon"
                   aria-hidden={true}
                   className="w-6 h-6 shrink-0"
                 />

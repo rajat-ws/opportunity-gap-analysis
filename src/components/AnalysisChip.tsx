@@ -5,7 +5,7 @@ import PieIcon from '../../public/svg/pie.svg';
 import GreenTickCircle from "../../public/svg/green-tick-circle.svg"
 
 const analysisChipVariants = cva(
-  "inline-flex items-center gap-4 rounded-full relative overflow-hidden",
+  "inline-flex items-center gap-4 rounded-full relative overflow-hidden text-[20px] font-[300] leading-[150%] tracking-[0%]",
   {
     variants: {
       state: {
@@ -16,14 +16,10 @@ const analysisChipVariants = cva(
       size: {
         default: "h-16"
       },
-      fontSize: {
-        default: "text-[20px] font-[300] leading-[150%] tracking-[0%]"
-      }
     },
     defaultVariants: {
       state: 'incomplete',
       size: "default",
-      fontSize: "default"
     },
   }
 );
@@ -39,13 +35,12 @@ const AnalysisChip: React.FC<AnalysisChipProps> = ({
   state,
   className,
   size,
-  fontSize,
   ...props
 }) => {
   return (
     <div
       className={cn(
-        analysisChipVariants({ state, size, fontSize }),
+        analysisChipVariants({ state, size }),
         className
       )}
       {...props}
@@ -64,7 +59,6 @@ const AnalysisChip: React.FC<AnalysisChipProps> = ({
         <div className="rounded-full bg-white/10 flex items-center justify-center w-10 h-10">
           <img 
             src={PieIcon} 
-            alt="pie-icon" 
             aria-hidden={true} 
             className="w-6 h-6" 
           />
