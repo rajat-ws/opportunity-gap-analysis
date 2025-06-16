@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
+import Arrow from "../../public/svg/arrow.svg"
 
 interface FormData {
   marketSegment: string;
@@ -148,7 +149,13 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
           <div className="flex justify-center pt-8">
             <Button
               type="submit"
-              className="purple-gradient text-white px-12 py-4 text-lg font-medium hover:opacity-90 transition-opacity min-w-[200px]"
+              icon={
+                <img src={Arrow} alt="arrow-icon" className="size-10" />
+              }
+              variant="primary"
+              size="primary"
+              font="primary"
+              className="w-full"
             >
               Next
             </Button>
