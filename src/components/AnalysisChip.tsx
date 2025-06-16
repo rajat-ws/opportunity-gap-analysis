@@ -5,7 +5,7 @@ import PieIcon from '../../public/svg/pie.svg';
 import GreenTickCircle from "../../public/svg/green-tick-circle.svg"
 
 const analysisChipVariants = cva(
-  "inline-flex items-center gap-4 rounded-full relative overflow-clip",
+  "inline-flex items-center gap-4 rounded-full relative overflow-hidden",
   {
     variants: {
       state: {
@@ -71,7 +71,7 @@ const AnalysisChip: React.FC<AnalysisChipProps> = ({
         </div>
 
         {/* Text Content */}
-        <span className="text-sm font-medium flex-1">{children}</span>
+        <span className="flex-1">{children}</span>
 
         {/* Right Tick Icon (only shown in complete state) */}
         {state === 'complete' && (

@@ -24,7 +24,7 @@ const AnalysisChipSet: React.FC<AnalysisChipSetProps> = ({
       <div className="bg-[#D9D9D9]/20 w-0.5 h-[90%] translate-x-[45px] top-2/4 -translate-y-2/4 absolute"></div>
 
       {items.map((item, index) => (
-        <AnalysisChip key={index} state={getChipState(index)}>
+        <AnalysisChip key={`analysis-${item}-${index}`} state={getChipState(index)}>
           {item}
         </AnalysisChip>
       ))}

@@ -5,7 +5,8 @@ import GreenTickCircle from "../../public/svg/green-tick-circle.svg"
 import SeoGif from "../../public/gifs/seo.gif"
 import AnalyticalSkillGif from "../../public/gifs/analytical-skill.gif"
 
-const getGifAsPerCurrentStep = (currentStep: number) => {
+const getGifAsPerCurrentStep = (currentStep: number): string => {
+  // currently the gifs are being alternated. maybe in future a different gif will be provided for each index
   if (currentStep % 2 === 0) {
     return SeoGif;
   }
@@ -33,7 +34,9 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
         if (prev < analysisItems.length - 1) {
           return prev + 1;
         }
-        setTimeout(() => setIsAnalysisComplete(true), 1000);
+        if (!isAnalysisComplete) {
+          setIsAnalysisComplete(true);
+        }
         return prev + 1;
       });
     }, 4000);
@@ -83,7 +86,8 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
         <div className="w-[466px] h-[510px] border border-[#272727] bg-black flex items-center justify-center">
           <img 
             src={getGifAsPerCurrentStep(currentStep)} 
-            className="w-[178px] h-[178px]" 
+            className="w-[178px] h-[178px]"
+            alt="Analysis progress animation"
           />
         </div>
       </div>
