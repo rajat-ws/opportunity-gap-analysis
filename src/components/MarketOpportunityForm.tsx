@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import Arrow from "../../public/svg/arrow.svg";
 import HeroBanner from "./HeroBanner";
 
@@ -19,6 +19,43 @@ interface MarketOpportunityFormProps {
   onNext: (data: FormData) => void;
 }
 
+// Memoized input components to prevent unnecessary re-renders
+const MemoizedInput = memo(({ value, onChange, ...props }: React.ComponentProps<typeof Input>) => (
+  <Input value={value} onChange={onChange} {...props} />
+));
+
+const MemoizedTextarea = memo(({ value, onChange, ...props }: React.ComponentProps<typeof Textarea>) => (
+  <Textarea value={value} onChange={onChange} {...props} />
+));
+
+// Memoized button components to prevent unnecessary re-renders
+const MemoizedAddButton = memo(({ onClick }: { onClick: () => void }) => (
+  <Button
+    type="button"
+    onClick={onClick}
+    variant="outline"
+    className="h-12 px-6 bg-black border border-[#dee0e399] hover:bg-[#2f2f30] hover:text-white"
+  >
+    <Plus className="w-4 h-4 mr-2" />
+    Add more
+  </Button>
+));
+
+const MemoizedSubmitButton = memo(({ onClick }: { onClick: (e: React.FormEvent) => void }) => (
+  <Button
+    type="submit"
+    onClick={onClick}
+    icon={
+      <img src={Arrow} alt="arrow-icon" className="w-10 h-10" />
+    }
+    variant="primary"
+    size="primary"
+    font="primary"
+  >
+    Start Analysis
+  </Button>
+));
+
 const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
   const [formData, setFormData] = useState<FormData>({
     marketSegment: "",
@@ -29,6 +66,10 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
     email: "",
   });
   const [mascotSrc, setMascotSrc] = useState<string | null>(null);
+  
+  // Use ref to access current formData without causing re-renders
+  const formDataRef = useRef(formData);
+  formDataRef.current = formData;
 
   useEffect(() => {
     let mounted = true;
@@ -51,24 +92,46 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
     };
   }, [mascotSrc]);
 
-  const addCompetitorUrl = () => {
+  // Memoized handlers to prevent creating new function references on every render
+  const handleMarketSegmentChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({ ...prev, marketSegment: e.target.value }));
+  }, []);
+
+  const handleUserPersonaChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({ ...prev, userPersona: e.target.value }));
+  }, []);
+
+  const handleProblemSolvingChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, problemSolving: e.target.value }));
+  }, []);
+
+  const handleFeaturesChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, features: e.target.value }));
+  }, []);
+
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({ ...prev, email: e.target.value }));
+  }, []);
+
+  const addCompetitorUrl = useCallback(() => {
     setFormData(prev => ({
       ...prev,
       competitorUrls: [...prev.competitorUrls, ""]
     }));
-  };
+  }, []);
 
-  const updateCompetitorUrl = (index: number, value: string) => {
+  const updateCompetitorUrl = useCallback((index: number, value: string) => {
     setFormData(prev => ({
       ...prev,
       competitorUrls: prev.competitorUrls.map((url, i) => i === index ? value : url)
     }));
-  };
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Fixed handleSubmit to use ref instead of formData dependency
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    onNext(formData);
-  };
+    onNext(formDataRef.current);
+  }, [onNext]);
 
   return (
     <div className="min-h-screen home-bg relative">
@@ -87,20 +150,20 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
               <label className="text-white font-medium">What is your market segment?</label>
-              <Input
+              <MemoizedInput
                 placeholder="e.g., Health & Wellness"
                 value={formData.marketSegment}
-                onChange={(e) => setFormData(prev => ({ ...prev, marketSegment: e.target.value }))}
+                onChange={handleMarketSegmentChange}
                 required
               />
             </div>
 
             <div className="space-y-3">
               <label className="text-white font-medium">What's your user persona?</label>
-              <Input
+              <MemoizedInput
                 placeholder="e.g., Tech Savvy aged between 20-30"
                 value={formData.userPersona}
-                onChange={(e) => setFormData(prev => ({ ...prev, userPersona: e.target.value }))}
+                onChange={handleUserPersonaChange}
                 required
               />
             </div>
@@ -109,10 +172,10 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
               <label className="text-white font-medium">What problem are you solving?</label>
-              <Textarea
+              <MemoizedTextarea
                 placeholder="Enter business problems"
                 value={formData.problemSolving}
-                onChange={(e) => setFormData(prev => ({ ...prev, problemSolving: e.target.value }))}
+                onChange={handleProblemSolvingChange}
                 className="min-h-[120px] resize-none"
                 required
               />
@@ -122,10 +185,10 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
               <label className="text-white font-medium flex justify-between">
                 What features do you have in mind? <span>[Optional]</span>
               </label>
-              <Textarea
+              <MemoizedTextarea
                 placeholder="Enter optional feature sets"
                 value={formData.features}
-                onChange={(e) => setFormData(prev => ({ ...prev, features: e.target.value }))}
+                onChange={handleFeaturesChange}
                 className="min-h-[120px] resize-none"
               />
             </div>
@@ -135,48 +198,29 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
             <label className="text-white font-medium">Can you share a competitor URL?</label>
             <div className="flex flex-wrap gap-4 items-end">
               {formData.competitorUrls.map((url, index) => (
-                <Input
+                <CompetitorUrlInput
                   key={index}
-                  placeholder={`Enter Competitor URL ${index + 1}`}
+                  index={index}
                   value={url}
-                  onChange={(e) => updateCompetitorUrl(index, e.target.value)}
-                  className="h-12 flex-1 min-w-[250px]"
+                  onChange={updateCompetitorUrl}
                 />
               ))}
-              <Button
-                type="button"
-                onClick={addCompetitorUrl}
-                variant="outline"
-                className="h-12 px-6 bg-black border border-[#dee0e399] hover:bg-[#2f2f30] hover:text-white"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add more
-              </Button>
+              <MemoizedAddButton onClick={addCompetitorUrl} />
             </div>
           </div>
 
           <div className="space-y-3">
             <label className="text-white font-medium">What is your email address?</label>
-            <Input
+            <MemoizedInput
               type="email"
               placeholder="Email address"
               value={formData.email}
-              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}  
+              onChange={handleEmailChange}
               required
             />
           </div>
 
-            <Button
-              type="submit"
-              icon={
-                <img src={Arrow} alt="arrow-icon" className="w-10 h-10" />
-              }
-              variant="primary"
-              size="primary"
-              font="primary"
-            >
-              Start Analysis
-            </Button>
+            <MemoizedSubmitButton onClick={handleSubmit} />
         </form>
 
         <div className="text-center mt-12">
@@ -200,4 +244,24 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
   );
 };
 
-export default MarketOpportunityForm;
+// Memoized competitor URL input component
+const CompetitorUrlInput = memo(({ index, value, onChange }: {
+  index: number;
+  value: string;
+  onChange: (index: number, value: string) => void;
+}) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(index, e.target.value);
+  }, [index, onChange]);
+
+  return (
+    <MemoizedInput
+      placeholder={`Enter Competitor URL ${index + 1}`}
+      value={value}
+      onChange={handleChange}
+      className="h-12 flex-1 min-w-[250px]"
+    />
+  );
+});
+
+export default memo(MarketOpportunityForm);
