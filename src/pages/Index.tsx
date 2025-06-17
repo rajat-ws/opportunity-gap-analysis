@@ -1,5 +1,4 @@
 import AnalysisScreen from "@/components/AnalysisScreen";
-
 import MarketOpportunityForm from "@/components/MarketOpportunityForm";
 import { useState } from "react";
 
@@ -39,7 +38,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full">
       {renderCurrentStep()}
     </div>
   );

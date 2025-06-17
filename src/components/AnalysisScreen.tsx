@@ -3,6 +3,7 @@ import AnalyticalSkillGif from "../../public/gifs/analytical-skill.gif";
 import SeoGif from "../../public/gifs/seo.gif";
 import GreenTickCircle from "../../public/svg/green-tick-circle.svg";
 import AnalysisChipSet from "./AnalysisChipSet";
+import Header from "./Header";
 
 const getGifAsPerCurrentStep = (currentStep: number): string => {
   // currently the gifs are being alternated. maybe in future a different gif will be provided for each index
@@ -44,21 +45,13 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
   }, [analysisItems.length, isAnalysisComplete]);
 
   return (
-    <div className="min-h-screen  analysis-bg p-6 flex flex-col items-center gap-y-16">
-      <div className="flex flex-col items-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-          Find Your
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
-            Market Opportunity
-          </span>
-        </h1>
-        <p className="text-gray-300 text-lg">
-          Wednesday has helped over 50 digital first companies achieve PMF.
-        </p>
-      </div>
+    <div className="min-h-screen analysis-bg flex flex-col items-center">
+    <Header />
 
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-x-28 items-start">
-        <div className="space-y-8">
+  {/* border */}
+    <div className="w-[660px] lg:w-[1152px] h-[1px] opacity-20 border-gradient" />
+      <div className="w-full max-w-6xl mx-auto md:px-6 lg:mx-0 flex flex-col lg:flex-row gap-x-[112px] gap-y-8 mt-[60.27px] items-center">
+        <div className="space-y-8 mx-auto lg:mx-0 flex flex-col self-start">
           <h2 className="text-white text-2xl font-semibold mb-6">
             {isAnalysisComplete ? (
               <div className="flex items-center gap-x-[14px]">

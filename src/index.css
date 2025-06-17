@@ -104,16 +104,14 @@
   background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
 }
 
+.border-gradient {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) -6.44%, #FFFFFF 45.57%, rgba(255, 255, 255, 0) 106.53%);
+}
+
 .home-bg {
-  background: url('/images/home-bg.png');
-  background-size: cover;
-  background-repeat: no-repeat;
+  background: url('/images/home-bg.png') no-repeat cover;
 }
 
 .analysis-bg {
-  background: url('/images/analysis-bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #000000;
+  background: url('/images/analysis-bg.png') center/cover no-repeat #000000;
 }
