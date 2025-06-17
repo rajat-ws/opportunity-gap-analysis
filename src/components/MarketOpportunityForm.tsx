@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import Arrow from "../../public/svg/arrow.svg";
+import HeroBanner from "./HeroBanner";
 
 interface FormData {
   marketSegment: string;
@@ -70,7 +71,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
   };
 
   return (
-    <div className="min-h-screen home-bg flex items-center justify-center p-6 overflow-x-hidden relative">
+    <div className="min-h-screen home-bg relative">
       {/* Gradient Overlay */}
       <div
         className="pointer-events-none absolute inset-0 -z-10"
@@ -79,17 +80,10 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
           opacity: 0.85,
         }}
       />
-      <div className="w-full md:w-[777px] max-w-4xl">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-            Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">Market Opportunity</span>
-          </h1>
-          <p className="text-white/80 text-[18px]">
-            Wednesday has helped over 50 digital first companies achieve PMF.
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-y-8 items-stretch">
+     <div className="flex flex-col items-center justify-center p-6 overflow-x-hidden">
+     <HeroBanner />
+     <div className="w-full max-w-[777px] mx-auto lg:mx-0">        
+        <form onSubmit={handleSubmit} className="flex flex-col gap-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
               <label className="text-white font-medium">What is your market segment?</label>
@@ -201,6 +195,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
           />
         )}
       </div>
+     </div>
     </div>
   );
 };
