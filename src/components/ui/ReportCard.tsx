@@ -132,7 +132,7 @@ export const ReportCard = <T = CompetitorData,>({
   return (
     <div className="w-[563px] h-[716px] rounded-lg border border-[#333] overflow-hidden flex flex-col shadow-lg">
       {/* Header Section */}
-      <div className="py-[24px] px-[32px] flex flex-col gap-[4px] border-b border-[#333] bg-gradient-to-r from-[#1a1a1a] to-[#1f1f1f]">
+      <div className="py-[24px] px-[32px] bg-[#151517] flex flex-col gap-[4px] border-b border-[#333]">
         <h3 className="text-white text-lg font-semibold leading-tight">
           {title}
         </h3>
@@ -141,11 +141,11 @@ export const ReportCard = <T = CompetitorData,>({
 
       <div className="flex flex-col flex-1 overflow-hidden">
         {/* Header Row */}
-        <div className="flex border-b border-[#333] h-[64px] bg-[#FFFFFF33]">
+        <div className="flex border-b border-[#333] h-[64px] bg-[#5E5E5E]">
           {columns.map((column, index) => (
             <div
               key={index}
-              className={`flex-1 min-w-0 px-4 py-3 text-sm font-medium text-gray-300 flex items-center justify-center transition-colors hover:bg-[#1a1a1a] ${
+              className={`flex-1 min-w-0 px-4 py-3 text-sm font-medium text-gray-300 flex items-center justify-center ${
                 index > 0 ? "border-l border-[#333]" : ""
               }`}
             >
@@ -160,7 +160,7 @@ export const ReportCard = <T = CompetitorData,>({
             ? displayData.map((item, index) => (
                 <div
                   key={index}
-                  className={`transition-colors hover:bg-[#1a1a1a] ${
+                  className={`${
                     index < displayData.length - 1
                       ? "border-b border-[#333]"
                       : ""
