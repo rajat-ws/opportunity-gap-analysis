@@ -175,7 +175,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
               size="primary"
               font="primary"
             >
-              Next
+              Start Analysis
             </Button>
         </form>
 

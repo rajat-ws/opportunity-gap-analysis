@@ -6,7 +6,7 @@ const HeroBanner = () => {
                 Find Your <span className="text-purple-400">Market Opportunity</span>
               </h1>
               <p className="text-gray-300 text-base sm:text-lg md:text-xl lg:text-2xl font-normal">
-                Wednesday has helped over 50 digital first companies achieve PMF.
+              Analyze competitors, uncover customer problems, and build features that matter
               </p>
           </div>
     </header>
