@@ -1,7 +1,9 @@
 import React from "react";
-import ReportCard, { ReportCardData } from "./ReportCard";
+import { ReportCard } from "./ui/ReportCard";
+import LocationIcon from "/images/location.svg";
+import TargetIcon from "/images/target.svg";
 
-export interface CompetitorData extends ReportCardData {
+export interface CompetitorData {
   name: string;
   marketSegments: string[];
   primaryDifferentiator: string;
@@ -20,7 +22,7 @@ const CompetitorsCard: React.FC<CompetitorsCardProps> = ({
   const renderCompetitorRow = (competitor: CompetitorData, index: number) => (
     <div className="flex items-stretch min-h-[80px]">
       {/* Competitor Name */}
-      <div className="flex-1 flex items-center p-4 border-r border-[#444]">
+      <div className="flex-1 flex p-4 border-r border-[#333]">
         {competitor.icon && (
           <div className="w-8 h-8 rounded-full bg-[#333] flex items-center justify-center mr-3 flex-shrink-0">
             <img
@@ -30,21 +32,31 @@ const CompetitorsCard: React.FC<CompetitorsCardProps> = ({
             />
           </div>
         )}
-        <span className="text-white font-medium">{competitor.name}</span>
+        <span className="text-white pl-[10px] font-medium">
+          {competitor.name}
+        </span>
       </div>
 
       {/* Market Segments */}
-      <div className="flex-1 p-4 border-r border-[#444] flex flex-col gap-[35px]">
-        {competitor.marketSegments.map((segment, segmentIndex) => (
-          <div key={segmentIndex} className="flex items-start">
-            <div className="w-4 h-4 rounded-full bg-orange-500 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
-              <div className="w-2 h-2 bg-white rounded-full"></div>
+      <div className="flex-1 p-4 border-r border-[#333] flex flex-col gap-[35px]">
+        {competitor.marketSegments.map((segment, segmentIndex) => {
+          const isLocationSegment = segment
+            .toLowerCase()
+            .includes("india focus");
+
+          return (
+            <div key={segmentIndex} className="flex items-start">
+              <img
+                src={isLocationSegment ? LocationIcon : TargetIcon}
+                alt={isLocationSegment ? "Location" : "Target"}
+                className="flex-shrink-0 mt-0.5 mr-2 w-4 h-4"
+              />
+              <span className="text-gray-300 text-sm leading-relaxed">
+                {segment}
+              </span>
             </div>
-            <span className="text-gray-300 text-sm leading-relaxed">
-              {segment}
-            </span>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Primary Differentiator */}
@@ -61,7 +73,6 @@ const CompetitorsCard: React.FC<CompetitorsCardProps> = ({
       columns={["Competitor Name", "Market Segment", "Primary Differentiator"]}
       data={competitors}
       renderRow={renderCompetitorRow}
-      className={className}
     />
   );
 };

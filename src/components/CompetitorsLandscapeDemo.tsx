@@ -1,12 +1,12 @@
 import React from "react";
-import CompetitorsCard, { CompetitorData } from "./CompetitorsCard";
+import CompetitorsCard from "./CompetitorsCard";
 import CustomerSegmentsCard, {
   CustomerSegmentData,
 } from "./CustomerSegmentsCard";
 import HeroBanner from "./HeroBanner";
 
 const CompetitorsLandscapeDemo: React.FC = () => {
-  const sampleCompetitors: CompetitorData[] = [
+  const sampleCompetitors = [
     {
       name: "Zerodha",
       marketSegments: [
