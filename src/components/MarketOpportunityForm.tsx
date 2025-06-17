@@ -71,7 +71,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
   };
 
   return (
-    <div className="min-h-screen home-bg relative">
+    <div className="min-h-screen home-bg relative w-full overflow-hidden">
       {/* Gradient Overlay */}
       <div
         className="pointer-events-none absolute inset-0 -z-10"
@@ -80,7 +80,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
           opacity: 0.85,
         }}
       />
-     <div className="flex flex-col items-center justify-center p-6 overflow-x-hidden">
+     <div className="flex flex-col items-center justify-center p-6">
      <HeroBanner />
      <div className="w-full max-w-[777px] mx-auto lg:mx-0">        
         <form onSubmit={handleSubmit} className="flex flex-col gap-y-8">
@@ -191,7 +191,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
             src={mascotSrc} 
             alt=""
             aria-hidden="true"
-            className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden [@media(min-width:1396px)]:block" 
+            className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden [@media(min-width:1396px)]:block pointer-events-none" 
           />
         )}
       </div>
