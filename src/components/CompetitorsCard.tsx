@@ -2,6 +2,7 @@ import React from "react";
 import { ReportCard } from "./ui/ReportCard";
 import LocationIcon from "/images/location.svg";
 import TargetIcon from "/images/target.svg";
+import { cn } from "@/lib/utils";
 
 export interface CompetitorData {
   name: string;
@@ -73,6 +74,7 @@ const CompetitorsCard: React.FC<CompetitorsCardProps> = ({
       columns={["Competitor Name", "Market Segment", "Primary Differentiator"]}
       data={competitors}
       renderRow={renderCompetitorRow}
+      className={cn(className)}
     />
   );
 };

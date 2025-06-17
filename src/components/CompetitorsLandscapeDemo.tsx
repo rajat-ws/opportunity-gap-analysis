@@ -5,6 +5,8 @@ import CustomerSegmentsCard, {
 } from "./CustomerSegmentsCard";
 import DownloadReportCard from "./DownloadReportCard";
 import HeroBanner from "./HeroBanner";
+import RankedUnmetCard from "./RankedUnmetCard";
+import PrioritizedFeatureCard from "./PrioritiezedFeatureCard";
 
 const CompetitorsLandscapeDemo: React.FC = () => {
   const sampleCompetitors = [
@@ -87,20 +89,22 @@ const CompetitorsLandscapeDemo: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen analysis-bg flex flex-col items-center">
+    <div className="min-h-screen analysis-bg flex flex-col items-center pb-10">
       <HeroBanner />
 
       {/* border */}
-      <div className="w-[660px] lg:w-[1152px] h-[1px] opacity-20 border-gradient" />
+      <div className="w-full xl:w-[1152px] h-[1px] opacity-20 border-gradient" />
 
       {/* Add OpportunityGapsCard */}
       <div className="mt-[60.27px] mb-[25px]">
         <DownloadReportCard />
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:mx-0 flex flex-col md:flex-row justify-center items-center md:items-start gap-[25px]">
-        <CompetitorsCard competitors={sampleCompetitors} />
-        <CustomerSegmentsCard segments={sampleCustomerSegments} />
+      <div className="w-full max-w-[1152px] mx-auto px-4 md:px-6 lg:mx-0 grid grid-cols-[405px] md:grid-cols-[563px] xl:grid-cols-[563px_563px] gap-[25px] justify-center">
+        <CompetitorsCard competitors={sampleCompetitors} className="w-full" />
+        <CustomerSegmentsCard segments={sampleCustomerSegments} className="w-full" />
+        <RankedUnmetCard />
+        <PrioritizedFeatureCard />
       </div>
     </div>
   );

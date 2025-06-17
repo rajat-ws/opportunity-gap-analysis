@@ -1,6 +1,7 @@
 import React from "react";
 import { ReportCard } from "./ui/ReportCard";
 import ArchIcon from "/images/arch-icon.svg";
+import { cn } from "@/lib/utils";
 
 export interface CustomerSegmentData {
   name: string;
@@ -72,6 +73,7 @@ const CustomerSegmentsCard: React.FC<CustomerSegmentsCardProps> = ({
       columns={["Name", "Archetype & Definition", "JTBD / Top 3 Needs"]}
       data={segments}
       renderRow={renderSegmentRow}
+      className={cn(className)}
     />
   );
 };

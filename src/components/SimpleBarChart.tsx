@@ -9,7 +9,7 @@ interface BarProps {
 const Bar: React.FC<BarProps> = ({ className, style }) => {
     return (
         <div 
-            className={cn("bg-gradient-to-r from-[#B09FFF] to-[#8D79F6] relative", className)} 
+            className={cn("bg-gradient-to-r from-[#B09FFF] to-[#8D79F6] border-[0.32px] border-white relative", className)} 
             style={style}
         >
             <div className="bg-white rounded-full w-4 h-4 absolute left-2/4 -translate-x-2/4 -translate-y-2/4" />
@@ -57,7 +57,7 @@ const SimpleBarChart: React.FC<SimpleBarChartProps> = ({
 }) => {
     return (
         <div 
-            className={cn("grid grid-cols-[26.21px_auto_auto_auto] grid-rows-[1fr_auto] gap-2", className)} 
+            className={cn("grid grid-cols-[26.21px_1fr_1fr_1fr] grid-rows-[1fr_auto] gap-2", className)} 
             style={{ columnGap: barGap }}
         >
             <div className="h-full border-r-[0.32px] border-[#C6C6C5] flex items-center justify-end">

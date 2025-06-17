@@ -15,7 +15,7 @@ const buttonVariants = cva(
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "text-secondary-foreground items-stretch border-[2px] border-primary-100 [&_.button-content]:p-4 [&_.button-content]:bg-transparent [&_.button-content]:flex-1 [&_.icon-container]:bg-primary-100 [&:hover_.icon-container]:w-[16%] transition focus:ring-2 focus:ring-primary-100 focus:ring-offset-2",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         loading: "opacity-70 cursor-wait",
@@ -24,6 +24,7 @@ const buttonVariants = cva(
       size: {
         default: "h-10 px-4 py-2",
         primary: "h-24",
+        secondary: "h-12",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
