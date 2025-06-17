@@ -53,7 +53,7 @@ const CustomerSegmentsCard: React.FC<CustomerSegmentsCardProps> = ({
 
       {/* JTBD / Top 3 Needs */}
       <div className="flex-1 space-y-2 p-4 flex flex-col justify-start">
-        {segment.jtbd.map((need, needIndex) => (
+        {segment?.jtbd?.map((need, needIndex) => (
           <div
             key={needIndex}
             className="text-gray-300 text-sm leading-relaxed"
