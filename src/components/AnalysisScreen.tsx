@@ -11,7 +11,7 @@ const getGifAsPerCurrentStep = (currentStep: number): string => {
     return SeoGif;
   }
   return AnalyticalSkillGif;
-}
+};
 
 interface AnalysisScreenProps {
   onComplete: () => void;
@@ -46,10 +46,10 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
 
   return (
     <div className="min-h-screen analysis-bg flex flex-col items-center">
-    <HeroBanner />
+      <HeroBanner />
 
-  {/* border */}
-    <div className="w-[660px] lg:w-[1152px] h-[1px] opacity-20 border-gradient" />
+      {/* border */}
+      <div className="w-[660px] lg:w-[1152px] h-[1px] opacity-20 border-gradient" />
       <div className="w-full max-w-6xl mx-auto md:px-6 lg:mx-0 flex flex-col lg:flex-row gap-x-[112px] gap-y-8 mt-[60.27px] items-center">
         <div className="space-y-8 mx-auto lg:mx-0 flex flex-col self-start">
           <h2 className="text-white text-2xl font-semibold mb-6">
@@ -75,8 +75,8 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
         </div>
 
         <div className="w-[466px] h-[510px] border border-[#272727] bg-black flex items-center justify-center">
-          <img 
-            src={getGifAsPerCurrentStep(currentStep)} 
+          <img
+            src={getGifAsPerCurrentStep(currentStep)}
             className="w-[178px] h-[178px]"
             alt="Analysis progress animation"
           />

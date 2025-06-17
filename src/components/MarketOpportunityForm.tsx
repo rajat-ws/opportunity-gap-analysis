@@ -20,13 +20,17 @@ interface MarketOpportunityFormProps {
 }
 
 // Memoized input components to prevent unnecessary re-renders
-const MemoizedInput = memo(({ value, onChange, ...props }: React.ComponentProps<typeof Input>) => (
-  <Input value={value} onChange={onChange} {...props} />
-));
+const MemoizedInput = memo(
+  ({ value, onChange, ...props }: React.ComponentProps<typeof Input>) => (
+    <Input value={value} onChange={onChange} {...props} />
+  )
+);
 
-const MemoizedTextarea = memo(({ value, onChange, ...props }: React.ComponentProps<typeof Textarea>) => (
-  <Textarea value={value} onChange={onChange} {...props} />
-));
+const MemoizedTextarea = memo(
+  ({ value, onChange, ...props }: React.ComponentProps<typeof Textarea>) => (
+    <Textarea value={value} onChange={onChange} {...props} />
+  )
+);
 
 // Memoized button components to prevent unnecessary re-renders
 const MemoizedAddButton = memo(({ onClick }: { onClick: () => void }) => (
@@ -41,20 +45,20 @@ const MemoizedAddButton = memo(({ onClick }: { onClick: () => void }) => (
   </Button>
 ));
 
-const MemoizedSubmitButton = memo(({ onClick }: { onClick: (e: React.FormEvent) => void }) => (
-  <Button
-    type="submit"
-    onClick={onClick}
-    icon={
-      <img src={Arrow} alt="arrow-icon" className="w-10 h-10" />
-    }
-    variant="primary"
-    size="primary"
-    font="primary"
-  >
-    Start Analysis
-  </Button>
-));
+const MemoizedSubmitButton = memo(
+  ({ onClick }: { onClick: (e: React.FormEvent) => void }) => (
+    <Button
+      type="submit"
+      onClick={onClick}
+      icon={<img src={Arrow} alt="arrow-icon" className="w-10 h-10" />}
+      variant="primary"
+      size="primary"
+      font="primary"
+    >
+      Start Analysis
+    </Button>
+  )
+);
 
 const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
   const [formData, setFormData] = useState<FormData>({
@@ -66,14 +70,14 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
     email: "",
   });
   const [mascotSrc, setMascotSrc] = useState<string | null>(null);
-  
+
   // Use ref to access current formData without causing re-renders
   const formDataRef = useRef(formData);
   formDataRef.current = formData;
 
   useEffect(() => {
     let mounted = true;
-    
+
     const loadMascot = async () => {
       // load only when needed
       if (window.innerWidth >= 1396 && !mascotSrc) {
@@ -85,53 +89,73 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
     };
 
     loadMascot();
-    window.addEventListener('resize', loadMascot);
+    window.addEventListener("resize", loadMascot);
     return () => {
       mounted = false;
-      window.removeEventListener('resize', loadMascot);
+      window.removeEventListener("resize", loadMascot);
     };
   }, [mascotSrc]);
 
   // Memoized handlers to prevent creating new function references on every render
-  const handleMarketSegmentChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, marketSegment: e.target.value }));
-  }, []);
+  const handleMarketSegmentChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({ ...prev, marketSegment: e.target.value }));
+    },
+    []
+  );
 
-  const handleUserPersonaChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, userPersona: e.target.value }));
-  }, []);
+  const handleUserPersonaChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({ ...prev, userPersona: e.target.value }));
+    },
+    []
+  );
 
-  const handleProblemSolvingChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, problemSolving: e.target.value }));
-  }, []);
+  const handleProblemSolvingChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setFormData((prev) => ({ ...prev, problemSolving: e.target.value }));
+    },
+    []
+  );
 
-  const handleFeaturesChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, features: e.target.value }));
-  }, []);
+  const handleFeaturesChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setFormData((prev) => ({ ...prev, features: e.target.value }));
+    },
+    []
+  );
 
-  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, email: e.target.value }));
-  }, []);
+  const handleEmailChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({ ...prev, email: e.target.value }));
+    },
+    []
+  );
 
   const addCompetitorUrl = useCallback(() => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      competitorUrls: [...prev.competitorUrls, ""]
+      competitorUrls: [...prev.competitorUrls, ""],
     }));
   }, []);
 
   const updateCompetitorUrl = useCallback((index: number, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      competitorUrls: prev.competitorUrls.map((url, i) => i === index ? value : url)
+      competitorUrls: prev.competitorUrls.map((url, i) =>
+        i === index ? value : url
+      ),
     }));
   }, []);
 
   // Fixed handleSubmit to use ref instead of formData dependency
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    onNext(formDataRef.current);
-  }, [onNext]);
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      onNext(formDataRef.current);
+    },
+    [onNext]
+  );
 
   return (
     <div className="min-h-screen home-bg relative">
@@ -139,129 +163,153 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
-          background: "radial-gradient(ellipse at 80% 20%,rgb(29, 23, 37) 50%,rgb(19, 19, 18) 70%, transparent 90%), linear-gradient(135deg, #000 10%, transparent 60%)",
+          background:
+            "radial-gradient(ellipse at 80% 20%,rgb(29, 23, 37) 50%,rgb(19, 19, 18) 70%, transparent 90%), linear-gradient(135deg, #000 10%, transparent 60%)",
           opacity: 0.85,
         }}
       />
-     <div className="flex flex-col items-center justify-center p-6 overflow-x-hidden">
-     <HeroBanner />
-     <div className="w-full max-w-[777px] mx-auto lg:mx-0">        
-        <form onSubmit={handleSubmit} className="flex flex-col gap-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-3">
-              <label className="text-white font-medium">What is your market segment?</label>
-              <MemoizedInput
-                placeholder="e.g., Health & Wellness"
-                value={formData.marketSegment}
-                onChange={handleMarketSegmentChange}
-                required
-              />
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-white font-medium">What's your user persona?</label>
-              <MemoizedInput
-                placeholder="e.g., Tech Savvy aged between 20-30"
-                value={formData.userPersona}
-                onChange={handleUserPersonaChange}
-                required
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-3">
-              <label className="text-white font-medium">What problem are you solving?</label>
-              <MemoizedTextarea
-                placeholder="Enter business problems"
-                value={formData.problemSolving}
-                onChange={handleProblemSolvingChange}
-                className="min-h-[120px] resize-none"
-                required
-              />
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-white font-medium flex justify-between">
-                What features do you have in mind? <span>[Optional]</span>
-              </label>
-              <MemoizedTextarea
-                placeholder="Enter optional feature sets"
-                value={formData.features}
-                onChange={handleFeaturesChange}
-                className="min-h-[120px] resize-none"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <label className="text-white font-medium">Can you share a competitor URL?</label>
-            <div className="flex flex-wrap gap-4 items-end">
-              {formData.competitorUrls.map((url, index) => (
-                <CompetitorUrlInput
-                  key={index}
-                  index={index}
-                  value={url}
-                  onChange={updateCompetitorUrl}
+      <div className="flex flex-col items-center justify-center p-6 overflow-x-hidden">
+        <HeroBanner />
+        <div className="w-full max-w-[777px] mx-auto lg:mx-0">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <label className="text-white font-medium">
+                  What is your market segment?
+                </label>
+                <MemoizedInput
+                  placeholder="e.g., Health & Wellness"
+                  value={formData.marketSegment}
+                  onChange={handleMarketSegmentChange}
+                  required
                 />
-              ))}
-              <MemoizedAddButton onClick={addCompetitorUrl} />
-            </div>
-          </div>
+              </div>
 
-          <div className="space-y-3">
-            <label className="text-white font-medium">What is your email address?</label>
-            <MemoizedInput
-              type="email"
-              placeholder="Email address"
-              value={formData.email}
-              onChange={handleEmailChange}
-              required
-            />
-          </div>
+              <div className="space-y-3">
+                <label className="text-white font-medium">
+                  What's your user persona?
+                </label>
+                <MemoizedInput
+                  placeholder="e.g., Tech Savvy aged between 20-30"
+                  value={formData.userPersona}
+                  onChange={handleUserPersonaChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <label className="text-white font-medium">
+                  What problem are you solving?
+                </label>
+                <MemoizedTextarea
+                  placeholder="Enter business problems"
+                  value={formData.problemSolving}
+                  onChange={handleProblemSolvingChange}
+                  className="min-h-[120px] resize-none"
+                  required
+                />
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-white font-medium flex justify-between">
+                  What features do you have in mind? <span>[Optional]</span>
+                </label>
+                <MemoizedTextarea
+                  placeholder="Enter optional feature sets"
+                  value={formData.features}
+                  onChange={handleFeaturesChange}
+                  className="min-h-[120px] resize-none"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <label className="text-white font-medium">
+                Can you share a competitor URL?
+              </label>
+              <div className="flex flex-wrap gap-4 items-end">
+                {formData.competitorUrls.map((url, index) => (
+                  <CompetitorUrlInput
+                    key={index}
+                    index={index}
+                    value={url}
+                    onChange={updateCompetitorUrl}
+                  />
+                ))}
+                <MemoizedAddButton onClick={addCompetitorUrl} />
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <label className="text-white font-medium">
+                What is your email address?
+              </label>
+              <MemoizedInput
+                type="email"
+                placeholder="Email address"
+                value={formData.email}
+                onChange={handleEmailChange}
+                required
+              />
+            </div>
 
             <MemoizedSubmitButton onClick={handleSubmit} />
-        </form>
+          </form>
 
-        <div className="text-center mt-12">
-          <p className="text-gray-300">
-            Wednesday has helped <span className="text-[#BDA2F4]">over 50 digital first companies </span> achieve PMF.
-          </p>
+          <div className="text-center mt-12">
+            <p className="text-gray-300">
+              Wednesday has helped{" "}
+              <span className="text-[#BDA2F4]">
+                over 50 digital first companies{" "}
+              </span>{" "}
+              achieve PMF.
+            </p>
+          </div>
+
+          {/* Character illustration placeholder */}
+          {mascotSrc && (
+            <img
+              src={mascotSrc}
+              alt=""
+              aria-hidden="true"
+              className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden [@media(min-width:1396px)]:block"
+            />
+          )}
         </div>
-
-        {/* Character illustration placeholder */}
-        {mascotSrc && (
-          <img 
-            src={mascotSrc} 
-            alt=""
-            aria-hidden="true"
-            className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden [@media(min-width:1396px)]:block" 
-          />
-        )}
       </div>
-     </div>
     </div>
   );
 };
 
 // Memoized competitor URL input component
-const CompetitorUrlInput = memo(({ index, value, onChange }: {
-  index: number;
-  value: string;
-  onChange: (index: number, value: string) => void;
-}) => {
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(index, e.target.value);
-  }, [index, onChange]);
+const CompetitorUrlInput = memo(
+  ({
+    index,
+    value,
+    onChange,
+  }: {
+    index: number;
+    value: string;
+    onChange: (index: number, value: string) => void;
+  }) => {
+    const handleChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange(index, e.target.value);
+      },
+      [index, onChange]
+    );
 
-  return (
-    <MemoizedInput
-      placeholder={`Enter Competitor URL ${index + 1}`}
-      value={value}
-      onChange={handleChange}
-      className="h-12 flex-1 min-w-[250px]"
-    />
-  );
-});
+    return (
+      <MemoizedInput
+        placeholder={`Enter Competitor URL ${index + 1}`}
+        value={value}
+        onChange={handleChange}
+        className="h-12 flex-1 min-w-[250px]"
+      />
+    );
+  }
+);
 
 export default memo(MarketOpportunityForm);
