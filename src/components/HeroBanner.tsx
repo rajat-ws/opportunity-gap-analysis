@@ -1,5 +1,4 @@
-
-const Header = () => {
+const HeroBanner = () => {
   return (
      <header className="w-full pb-[60.27px] pt-[63px] px-4">
             <div className="space-y-[10px] text-center">
@@ -14,4 +13,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeroBanner;

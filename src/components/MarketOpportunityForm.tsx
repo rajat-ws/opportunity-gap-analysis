@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import Arrow from "../../public/svg/arrow.svg";
-import Header from "./Header";
+import HeroBanner from "./HeroBanner";
 
 interface FormData {
   marketSegment: string;
@@ -81,7 +81,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
         }}
       />
      <div className="flex flex-col items-center justify-center p-6 overflow-x-hidden">
-     <Header />
+     <HeroBanner />
      <div className="w-full max-w-[777px] mx-auto lg:mx-0">        
         <form onSubmit={handleSubmit} className="flex flex-col gap-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

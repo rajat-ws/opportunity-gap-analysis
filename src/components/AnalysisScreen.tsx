@@ -3,7 +3,7 @@ import AnalyticalSkillGif from "../../public/gifs/analytical-skill.gif";
 import SeoGif from "../../public/gifs/seo.gif";
 import GreenTickCircle from "../../public/svg/green-tick-circle.svg";
 import AnalysisChipSet from "./AnalysisChipSet";
-import Header from "./Header";
+import HeroBanner from "./HeroBanner";
 
 const getGifAsPerCurrentStep = (currentStep: number): string => {
   // currently the gifs are being alternated. maybe in future a different gif will be provided for each index
@@ -46,7 +46,7 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
 
   return (
     <div className="min-h-screen analysis-bg flex flex-col items-center">
-    <Header />
+    <HeroBanner />
 
   {/* border */}
     <div className="w-[660px] lg:w-[1152px] h-[1px] opacity-20 border-gradient" />
