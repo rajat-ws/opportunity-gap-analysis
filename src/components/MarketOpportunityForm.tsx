@@ -191,7 +191,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
             src={mascotSrc} 
             alt=""
             aria-hidden="true"
-            className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden [@media(min-width:1396px)]:block" 
+            className="absolute -bottom-[35px] -right-[214px] w-[690px] h-[460px] hidden [@media(min-width:1396px)]:block pointer-events-none" 
           />
         )}
       </div>
