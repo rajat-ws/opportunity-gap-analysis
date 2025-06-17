@@ -92,7 +92,7 @@ const CompetitorsLandscapeDemo: React.FC = () => {
       {/* border */}
       <div className="w-[660px] lg:w-[1152px] h-[1px] opacity-20 border-gradient" />
 
-      <div className="w-full max-w-7xl mx-auto md:px-6 lg:mx-0 flex justify-center items-start mt-[60.27px] gap-[25px]">
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:mx-0 flex flex-col md:flex-row justify-center items-center md:items-start mt-[60.27px] gap-[25px]">
         <CompetitorsCard competitors={sampleCompetitors} />
         <CustomerSegmentsCard segments={sampleCustomerSegments} />
       </div>
