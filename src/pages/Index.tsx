@@ -12,7 +12,7 @@ interface FormData {
 }
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState<"form" | "analysis">("form");
+  const [currentStep, setCurrentStep] = useState<"form" | "analysis">("analysis");
   const [formData, setFormData] = useState<FormData | null>(null);
 
   const handleFormSubmit = (data: FormData) => {

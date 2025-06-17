@@ -30,7 +30,7 @@ interface AnalysisChipProps
   children: React.ReactNode;
 }
 
-const AnalysisChip: React.FC<AnalysisChipProps> = ({
+const AnalysisChip = React.memo<AnalysisChipProps>(({
   children,
   state,
   className,
@@ -81,6 +81,8 @@ const AnalysisChip: React.FC<AnalysisChipProps> = ({
       </div>
     </div>
   );
-};
+});
+
+AnalysisChip.displayName = 'AnalysisChip';
 
 export default AnalysisChip;
