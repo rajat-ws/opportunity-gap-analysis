@@ -45,6 +45,17 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
     return () => clearInterval(timer);
   }, [analysisItems.length]);
 
+  // Trigger navigation when analysis is complete
+  useEffect(() => {
+    if (isAnalysisComplete) {
+      const navigationTimer = setTimeout(() => {
+        onComplete();
+      }, 2000); // Wait 2 seconds to show the completion message
+
+      return () => clearTimeout(navigationTimer);
+    }
+  }, [isAnalysisComplete, onComplete]);
+
   return (
     <div className="min-h-screen analysis-bg flex flex-col items-center px-6 pb-6">
     <HeroBanner />
