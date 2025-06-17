@@ -156,14 +156,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
   return (
     <div className="min-h-screen home-bg relative">
       {/* Gradient Overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(ellipse at 80% 20%,rgb(29, 23, 37) 50%,rgb(19, 19, 18) 70%, transparent 90%), linear-gradient(135deg, #000 10%, transparent 60%)",
-          opacity: 0.85,
-        }}
-      />
+      <div className="pointer-events-none absolute inset-0 -z-10 overlay-gradient opacity-85" />
       <div className="flex flex-col items-center justify-center p-6 overflow-x-hidden">
         <HeroBanner />
         <div className="w-full max-w-[777px] mx-auto lg:mx-0">
