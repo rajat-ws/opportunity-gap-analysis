@@ -19,7 +19,6 @@ interface MarketOpportunityFormProps {
   onNext: (data: FormData) => void;
 }
 
-// Memoized input components to prevent unnecessary re-renders
 const MemoizedInput = memo(
   ({ value, onChange, ...props }: React.ComponentProps<typeof Input>) => (
     <Input value={value} onChange={onChange} {...props} />
@@ -32,7 +31,6 @@ const MemoizedTextarea = memo(
   )
 );
 
-// Memoized button components to prevent unnecessary re-renders
 const MemoizedAddButton = memo(({ onClick }: { onClick: () => void }) => (
   <Button
     type="button"
@@ -96,7 +94,6 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
     };
   }, [mascotSrc]);
 
-  // Memoized handlers to prevent creating new function references on every render
   const handleMarketSegmentChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setFormData((prev) => ({ ...prev, marketSegment: e.target.value }));
@@ -148,7 +145,6 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
     }));
   }, []);
 
-  // Fixed handleSubmit to use ref instead of formData dependency
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
@@ -283,7 +279,6 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
   );
 };
 
-// Memoized competitor URL input component
 const CompetitorUrlInput = memo(
   ({
     index,
