@@ -30,13 +30,13 @@ interface AnalysisChipProps
   children: React.ReactNode;
 }
 
-const AnalysisChip = React.memo<AnalysisChipProps>(({
+const AnalysisChip = React.memo(({
   children,
   state,
   className,
   size,
   ...props
-}) => {
+}: AnalysisChipProps) => {
   return (
     <div
       className={cn(
