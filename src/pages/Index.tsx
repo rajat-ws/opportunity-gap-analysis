@@ -1,5 +1,6 @@
 import AnalysisScreen from "@/components/AnalysisScreen";
 import CompetitorsLandscapeDemo from "@/components/CompetitorsLandscapeDemo";
+import MarketOpportunityForm from "@/components/MarketOpportunityForm";
 import { useState } from "react";
 
 interface FormData {

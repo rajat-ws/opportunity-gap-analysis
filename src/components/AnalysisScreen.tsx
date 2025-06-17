@@ -21,7 +21,7 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
   const analysisItems = [
     "Competitor Landscape",
     "New Customer Segmentation",
-    "Prioritizing Unmet User Needs",
+    "Ranked Unmet Needs",
     "Prioritized Feature Backlog",
   ];
 
@@ -37,12 +37,24 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
         if (!isAnalysisComplete) {
           setIsAnalysisComplete(true);
         }
+        clearInterval(timer)
         return prev + 1;
       });
     }, 4000);
 
     return () => clearInterval(timer);
-  }, [analysisItems.length, isAnalysisComplete]);
+  }, [analysisItems.length]);
+
+  // Trigger navigation when analysis is complete
+  useEffect(() => {
+    if (isAnalysisComplete) {
+      const navigationTimer = setTimeout(() => {
+        onComplete();
+      }, 2000); // Wait 2 seconds to show the completion message
+
+      return () => clearTimeout(navigationTimer);
+    }
+  }, [isAnalysisComplete, onComplete]);
 
   // Trigger navigation when analysis is complete
   useEffect(() => {
@@ -56,14 +68,14 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
   }, [isAnalysisComplete, onComplete]);
 
   return (
-    <div className="min-h-screen analysis-bg flex flex-col items-center">
-      <HeroBanner />
+    <div className="min-h-screen analysis-bg flex flex-col items-center px-6 pb-6">
+    <HeroBanner />
 
-      {/* border */}
-      <div className="w-[660px] lg:w-[1152px] h-[1px] opacity-20 border-gradient" />
-      <div className="w-full max-w-6xl mx-auto md:px-6 lg:mx-0 flex flex-col lg:flex-row gap-x-[112px] gap-y-8 mt-[60.27px] items-center">
-        <div className="space-y-8 mx-auto lg:mx-0 flex flex-col self-start">
-          <h2 className="text-white text-2xl font-semibold mb-6">
+  {/* border */}
+    <div className="w-full xl:w-[1152px] h-[1px] opacity-20 border-gradient" />
+      <div className="w-full xl:max-w-6xl mx-auto xl:mx-0 flex flex-col xl:flex-row gap-x-[112px] gap-y-8 mt-[60.27px] items-center">
+        <div className="space-y-8 mx-auto xl:mx-0 flex flex-col self-start">
+          <h2 className="text-white text-2xl font-semibold">
             {isAnalysisComplete ? (
               <div className="flex items-center gap-x-[14px]">
                 <img
@@ -81,13 +93,14 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
           <AnalysisChipSet
             items={analysisItems}
             currentIndex={currentStep}
-            className="w-[442px]"
+            className="w-full xl:w-[442px]"
+            chipClassName="[@media(max-width:500px)]:text-xs"
           />
         </div>
 
-        <div className="w-[466px] h-[510px] border border-[#272727] bg-black flex items-center justify-center">
-          <img
-            src={getGifAsPerCurrentStep(currentStep)}
+        <div className="w-full [@media(min-width:380px)]:w-[300px] [@media(min-width:500px)]:w-[400px] xl:w-[466px] aspect-[466/510] border border-[#272727] bg-black flex items-center justify-center">
+          <img 
+            src={getGifAsPerCurrentStep(currentStep)} 
             className="w-[178px] h-[178px]"
             alt="Analysis progress animation"
           />
