@@ -1,4 +1,6 @@
-const HeroBanner = () => {
+import { memo } from "react";
+
+const HeroBanner = memo(() => {
   return (
      <header className="w-full pb-[60.27px] pt-[63px] px-4">
             <div className="space-y-[10px] text-center">
@@ -11,6 +13,6 @@ const HeroBanner = () => {
           </div>
     </header>
   );
-};
+});
 
 export default HeroBanner;

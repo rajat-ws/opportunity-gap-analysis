@@ -53,7 +53,7 @@ export interface ButtonProps
  * @param {ButtonProps} props - The component props
  * @returns {JSX.Element} A button element
  */
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.memo(React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ 
     className, 
     variant, 
@@ -92,7 +92,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       </Comp>
     )
   }
-)
+))
 
 Button.displayName = "Button"
 

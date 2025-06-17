@@ -115,3 +115,8 @@
 .analysis-bg {
   background: url('/images/analysis-bg.png') center/cover no-repeat #000000;
 }
+
+.overlay-gradient {
+  background: radial-gradient(ellipse at 80% 20%, rgb(29, 23, 37) 50%, rgb(19, 19, 18) 70%, transparent 90%), 
+              linear-gradient(135deg, #000 10%, transparent 60%);
+}

@@ -11,7 +11,7 @@ const getGifAsPerCurrentStep = (currentStep: number): string => {
     return SeoGif;
   }
   return AnalyticalSkillGif;
-}
+};
 
 interface AnalysisScreenProps {
   onComplete: () => void;

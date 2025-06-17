@@ -3,7 +3,7 @@ import MarketOpportunityForm from "@/components/MarketOpportunityForm";
 import { useState } from "react";
 
 interface FormData {
-  marketSegment: string;  
+  marketSegment: string;
   userPersona: string;
   problemSolving: string;
   features: string;
@@ -37,11 +37,7 @@ const Index = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen w-full">
-      {renderCurrentStep()}
-    </div>
-  );
+  return <div className="min-h-screen w-full">{renderCurrentStep()}</div>;
 };
 
 export default Index;
