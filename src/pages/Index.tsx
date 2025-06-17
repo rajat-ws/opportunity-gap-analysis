@@ -1,5 +1,5 @@
 import AnalysisScreen from "@/components/AnalysisScreen";
-import MarketOpportunityForm from "@/components/MarketOpportunityForm";
+import CompetitorsLandscapeDemo from "@/components/CompetitorsLandscapeDemo";
 import { useState } from "react";
 
 interface FormData {
@@ -12,7 +12,9 @@ interface FormData {
 }
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState<"form" | "analysis">("form");
+  const [currentStep, setCurrentStep] = useState<
+    "form" | "analysis" | "reports"
+  >("form");
   const [formData, setFormData] = useState<FormData | null>(null);
 
   const handleFormSubmit = (data: FormData) => {
@@ -23,15 +25,18 @@ const Index = () => {
 
   const handleAnalysisComplete = () => {
     console.log("Analysis complete");
-    // The download button is now handled within the AnalysisScreen component
+    setCurrentStep("reports");
   };
 
   const renderCurrentStep = () => {
     switch (currentStep) {
       case "form":
-        return <MarketOpportunityForm onNext={handleFormSubmit} />;
+        // return <MarketOpportunityForm onNext={handleFormSubmit} />;
+        return <CompetitorsLandscapeDemo />;
       case "analysis":
         return <AnalysisScreen onComplete={handleAnalysisComplete} />;
+      case "reports":
+        return <CompetitorsLandscapeDemo />;
       default:
         return null;
     }
