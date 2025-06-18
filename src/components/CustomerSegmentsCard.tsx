@@ -72,6 +72,7 @@ const CustomerSegmentsCard: React.FC<CustomerSegmentsCardProps> = ({
       columns={["Name", "Archetype & Definition", "JTBD / Top 3 Needs"]}
       data={segments}
       renderRow={renderSegmentRow}
+      className={className}
     />
   );
 };

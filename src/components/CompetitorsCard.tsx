@@ -73,6 +73,7 @@ const CompetitorsCard: React.FC<CompetitorsCardProps> = ({
       columns={["Competitor Name", "Market Segment", "Primary Differentiator"]}
       data={competitors}
       renderRow={renderCompetitorRow}
+      className={className}
     />
   );
 };
