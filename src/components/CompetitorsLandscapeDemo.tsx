@@ -6,7 +6,6 @@ import CustomerSegmentsCard, {
 } from "./CustomerSegmentsCard";
 import DownloadReportCard from "./DownloadReportCard";
 import HeroBanner from "./HeroBanner";
-import BaseChartMUI from "./BaseChartMUI";
 
 type ChartDateItemProp = React.ComponentProps<typeof BaseChart>['data'][0]
 
