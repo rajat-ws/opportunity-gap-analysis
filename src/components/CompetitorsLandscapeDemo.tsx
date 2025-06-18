@@ -5,8 +5,7 @@ import CustomerSegmentsCard, {
 } from "./CustomerSegmentsCard";
 import DownloadReportCard from "./DownloadReportCard";
 import HeroBanner from "./HeroBanner";
-import RankedUnmetCard from "./RankedUnmetCard";
-import PrioritizedFeatureCard from "./PrioritizedFeatureCard";
+import MyCharts from "./MyCharts";
 
 const CompetitorsLandscapeDemo: React.FC = () => {
   const sampleCompetitors = [
@@ -88,6 +87,31 @@ const CompetitorsLandscapeDemo: React.FC = () => {
     },
   ];
 
+  // Data for the prioritized feature chart
+  const prioritizedFeatureData = [
+    {
+      name: "Onboarding",
+      priority: 90,
+      description:
+        "Onboarding & Education - Streamlined user journey with comprehensive learning resources.",
+      color: "#6366F1",
+    },
+    {
+      name: "Analytics",
+      priority: 75,
+      description:
+        "Unified Research & Analytics - Integrated tools for comprehensive market analysis.",
+      color: "#06B6D4",
+    },
+    {
+      name: "Trading",
+      priority: 60,
+      description:
+        "Real-Time Trading Engine - Fast execution platform for active trading strategies.",
+      color: "#10B981",
+    },
+  ];
+
   return (
     <div className="min-h-screen analysis-bg flex flex-col items-center pb-10">
       <HeroBanner />
@@ -102,9 +126,21 @@ const CompetitorsLandscapeDemo: React.FC = () => {
 
       <div className="w-full max-w-[1152px] mx-auto px-4 md:px-6 lg:mx-0 grid grid-cols-[405px] md:grid-cols-[563px] xl:grid-cols-[563px_563px] gap-[25px] justify-center">
         <CompetitorsCard competitors={sampleCompetitors} className="w-full" />
-        <CustomerSegmentsCard segments={sampleCustomerSegments} className="w-full" />
-        <RankedUnmetCard />
-        <PrioritizedFeatureCard />
+        <CustomerSegmentsCard
+          segments={sampleCustomerSegments}
+          className="w-full"
+        />
+        <MyCharts
+          title="Ranked Unmet Needs"
+          subtitle="Your market share distribution based on your inputs"
+          onViewReport={() => console.log("Ranked needs report clicked")}
+        />
+        <MyCharts
+          title="Prioritized Feature Backlog"
+          subtitle="Development roadmap based on market analysis"
+          data={prioritizedFeatureData}
+          onViewReport={() => console.log("Feature backlog report clicked")}
+        />
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ interface ReportCardProps<T = CompetitorData> {
   data?: T[];
   renderRow?: (item: T, index: number) => React.ReactNode;
   competitors?: CompetitorData[]; // Keep for backward compatibility
-  className?: string
+  className?: string;
 }
 
 // Dummy data for demonstration
@@ -126,14 +126,19 @@ export const ReportCard = <T = CompetitorData,>({
   data,
   renderRow,
   competitors = dummyCompetitors,
-  className
+  className,
 }: ReportCardProps<T>) => {
   // Use data if provided, otherwise fall back to competitors
   const displayData = data || competitors;
   const isUsingCustomData = !!data && !!renderRow;
 
   return (
-    <div className={cn("w-[563px] h-[716px] rounded-lg border border-[#333] overflow-hidden flex flex-col shadow-lg", className)}>
+    <div
+      className={cn(
+        "w-[563px] max-h-[716px] rounded-lg border border-[#333] overflow-hidden flex flex-col shadow-lg",
+        className
+      )}
+    >
       {/* Header Section */}
       <div className="py-[24px] px-[32px] bg-[#151517] flex flex-col gap-[4px] border-b border-[#333]">
         <h3 className="text-white text-lg font-semibold leading-tight">
