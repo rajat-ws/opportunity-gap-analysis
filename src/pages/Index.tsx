@@ -33,7 +33,6 @@ const Index = () => {
     switch (currentStep) {
       case "form":
         return <MarketOpportunityForm onNext={handleFormSubmit} />;
-      // return <CompetitorsLandscapeDemo />;
       case "analysis":
         return <AnalysisScreen onComplete={handleAnalysisComplete} />;
       case "reports":
