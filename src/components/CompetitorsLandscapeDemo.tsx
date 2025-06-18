@@ -1,11 +1,11 @@
 import React from "react";
+import BaseChart from "./BaseChart";
 import CompetitorsCard from "./CompetitorsCard";
 import CustomerSegmentsCard, {
   CustomerSegmentData,
 } from "./CustomerSegmentsCard";
 import DownloadReportCard from "./DownloadReportCard";
 import HeroBanner from "./HeroBanner";
-import MyCharts from "./MyCharts";
 
 const CompetitorsLandscapeDemo: React.FC = () => {
   const sampleCompetitors = [
@@ -91,24 +91,41 @@ const CompetitorsLandscapeDemo: React.FC = () => {
   const prioritizedFeatureData = [
     {
       name: "Onboarding",
-      priority: 90,
+      priority: 85,
       description:
-        "Onboarding & Education - Streamlined user journey with comprehensive learning resources.",
+        "Clear, guided onboarding with education to invest confidently.",
       color: "#6366F1",
+      persona: {
+        archetype: "Tech-Savvy Beginners",
+        ageBand: "25-34",
+        role: "Retail Investor",
+      },
+      jtbd: "An integrated, step-by-step onboarding experience with contextual, in-app education and transparent pricing.",
     },
     {
       name: "Analytics",
-      priority: 75,
+      priority: 68,
       description:
-        "Unified Research & Analytics - Integrated tools for comprehensive market analysis.",
+        "In-depth tools & analytics across assets for informed investing.",
       color: "#06B6D4",
+      persona: {
+        archetype: "Data-Driven Investors",
+        ageBand: "35-44",
+        role: "Active Trader",
+      },
+      jtbd: "Comprehensive analytics and research tools to make informed investment decisions across multiple asset classes.",
     },
     {
-      name: "Trading",
-      priority: 60,
-      description:
-        "Real-Time Trading Engine - Fast execution platform for active trading strategies.",
+      name: "Insights",
+      priority: 52,
+      description: "Instant insights & fast execution to seize market shifts.",
       color: "#10B981",
+      persona: {
+        archetype: "Quick Decision Makers",
+        ageBand: "25-44",
+        role: "Day Trader",
+      },
+      jtbd: "Real-time market insights and rapid execution capabilities to capitalize on market opportunities.",
     },
   ];
 
@@ -130,15 +147,15 @@ const CompetitorsLandscapeDemo: React.FC = () => {
           segments={sampleCustomerSegments}
           className="w-full"
         />
-        <MyCharts
+        <BaseChart
           title="Ranked Unmet Needs"
           subtitle="Your market share distribution based on your inputs"
           onViewReport={() => console.log("Ranked needs report clicked")}
         />
-        <MyCharts
+        <BaseChart
+          data={prioritizedFeatureData}
           title="Prioritized Feature Backlog"
           subtitle="Development roadmap based on market analysis"
-          data={prioritizedFeatureData}
           onViewReport={() => console.log("Feature backlog report clicked")}
         />
       </div>
