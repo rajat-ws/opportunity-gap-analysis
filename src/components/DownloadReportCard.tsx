@@ -1,14 +1,10 @@
 import React from "react";
 import { Button } from "./ui/button";
 import Download from "../../public/svg/download.svg";
-import { cn } from "@/lib/utils";
-interface DownloadReportCardProps {
-  className?: string;
-}
 
-const DownloadReportCard: React.FC<DownloadReportCardProps> = ({className}) => {
+const DownloadReportCard = () => {
   return (
-    <div className={cn("@container bg-[#151517] backdrop-blur-sm border border-white/20 rounded-xl flex max-xl:flex-col max-xl:gap-y-4 items-center justify-between px-8 py-6 w-full xl:w-[1148px] xl:h-[108px]", className)}>
+    <div className="bg-[#151517] backdrop-blur-sm border border-white/20 rounded-xl flex max-xl:flex-col max-xl:gap-y-4 items-center justify-between px-8 py-6 w-full xl:w-[1148px] xl:h-[108px]">
       <div className="flex items-center">
         <h2 className="text-white text-lg xl:text-2xl font-semibold">
           Identified Opportunity Gaps
