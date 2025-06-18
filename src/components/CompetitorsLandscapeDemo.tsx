@@ -6,7 +6,7 @@ import CustomerSegmentsCard, {
 import DownloadReportCard from "./DownloadReportCard";
 import HeroBanner from "./HeroBanner";
 import RankedUnmetCard from "./RankedUnmetCard";
-import PrioritizedFeatureCard from "./PrioritiezedFeatureCard";
+import PrioritizedFeatureCard from "./PrioritizedFeatureCard";
 
 const CompetitorsLandscapeDemo: React.FC = () => {
   const sampleCompetitors = [

@@ -8,6 +8,7 @@ interface RankedUnmetCardProps {
 const RankedUnmetCard: React.FC<RankedUnmetCardProps> = ({ className }) => {
     return (
         <ChartCard
+            className={className}
             heading="Ranked Unmet Needs"
             description="Your market share distribution based on your inputs"
             chartProps={{

@@ -8,6 +8,7 @@ interface PrioritizedFeatureCardProps {
 const PrioritizedFeatureCard: React.FC<PrioritizedFeatureCardProps> = ({ className }) => {
     return (
         <ChartCard 
+            className={className}
             heading="Prioritized Feature Backlog"
             description="Your market share distribution based on your inputs"
             chartProps={{
