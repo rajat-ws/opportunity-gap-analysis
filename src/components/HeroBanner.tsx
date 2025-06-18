@@ -2,7 +2,7 @@ import { memo } from "react";
 
 const HeroBanner = memo(() => {
   return (
-     <header className="w-full pb-[60.27px] pt-[63px] px-4">
+     <header className="w-full pb-[60.27px] px-4">
             <div className="space-y-[10px] text-center">
               <h1 className="text-white font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight">
                 Find Your <span className="text-purple-400">Market Opportunity</span>
