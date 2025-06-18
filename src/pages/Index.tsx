@@ -32,8 +32,7 @@ const Index = () => {
   const renderCurrentStep = () => {
     switch (currentStep) {
       case "form":
-        // return <MarketOpportunityForm onNext={handleFormSubmit} />;
-      return <CompetitorsLandscapeDemo />;
+        return <MarketOpportunityForm onNext={handleFormSubmit} />;
       case "analysis":
         return <AnalysisScreen onComplete={handleAnalysisComplete} />;
       case "reports":

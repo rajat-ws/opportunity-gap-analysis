@@ -276,12 +276,13 @@ const CompetitorsLandscapeDemo: React.FC = () => {
       {/* border */}
       <div className="w-full xl:w-[1152px] h-[1px] opacity-20 border-gradient" />
 
+      <div className="w-[405px] md:w-[563px] max-w-[1152px] xl:w-full space-y-[25px] mt-[60.27px] [@media(max-width:380px)]:px-6" >
       {/* Add OpportunityGapsCard */}
-      <div className="mt-[60.27px] mb-[25px]">
+      <div>
         <DownloadReportCard />
       </div>
 
-      <div className="w-full max-w-[1152px] mx-auto px-4 md:px-6 lg:mx-0 grid grid-cols-[405px] md:grid-cols-[563px] xl:grid-cols-[563px_563px] gap-[25px] justify-center">
+      <div className="w-full max-w-[1152px] mx-auto px-4 md:px-6 lg:mx-0 grid md:grid-cols-[563px] xl:grid-cols-[563px_563px] gap-[25px] justify-center">
         <CompetitorsCard competitors={sampleCompetitors} className="w-full" />
         <CustomerSegmentsCard
           segments={sampleCustomerSegments}
@@ -291,14 +292,13 @@ const CompetitorsLandscapeDemo: React.FC = () => {
           title="Ranked Unmet Needs"
           subtitle="Your market share distribution based on your inputs"
           data={rankedUnmetNeedsData}
-          onViewReport={() => console.log("Ranked needs report clicked")}
         />
         <BaseChart
           data={prioritizedFeatureData}
           title="Prioritized Feature Backlog"
           subtitle="Development roadmap based on market analysis"
-          onViewReport={() => console.log("Feature backlog report clicked")}
         />
+      </div>
       </div>
     </div>
   );
