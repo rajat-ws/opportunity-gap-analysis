@@ -28,22 +28,6 @@ const ChartCard: React.FC<ChartCardProps> = ({
             <div className="w-full h-px bg-white/10" />
             <div className="mt-[30px] pl-[38px] pr-[26px]">
                 <SimpleBarChart
-                    className="h-[372.29px] w-full"
-                    yLabel="Priority"
-                    chartItems={[
-                        {
-                            yValue: 252,
-                            xLabel: "Onboarding & Education"
-                        },
-                        {
-                            yValue: 199,
-                            xLabel: "Unified Research & Analytics"
-                        },
-                        {
-                            yValue: 130,
-                            xLabel: "Real-Time Trading Engine"
-                        }
-                    ]}
                     {...chartProps}
                 />
             </div>
