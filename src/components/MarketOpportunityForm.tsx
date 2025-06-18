@@ -159,10 +159,10 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
   );
 
   return (
-    <div className="min-h-screen home-bg relative w-full overflow-hidden">
+    <div className="h-screen home-bg relative w-full overflow-hidden">
       {/* Gradient Overlay */}
       <div className="pointer-events-none absolute inset-0 -z-10 overlay-gradient opacity-85" />
-      <div className="flex flex-col items-center p-6 top-[50vh] -translate-y-2/4 relative">
+      <div className="flex flex-col items-center [@media(min-width:800px)_and_(min-height:980px)]:justify-center p-6 relative h-full overflow-y-auto">
         <HeroBanner />
         <div className="w-full max-w-[777px] mx-auto lg:mx-0">
           <form onSubmit={handleSubmit} className="flex flex-col gap-y-8">
