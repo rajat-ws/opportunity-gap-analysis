@@ -170,7 +170,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
         <HeroBanner />
         <div className="w-full max-w-[777px] mx-auto lg:mx-0">
           <form onSubmit={handleSubmit} className="flex flex-col gap-y-8 font-aeonikprotrial-light">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
               <div className="space-y-3">
                 <label className="text-white">
                   What is your market segment?
@@ -196,7 +196,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
               <div className="space-y-3">
                 <label className="text-white font-medium">
                   What problem are you solving?
@@ -224,10 +224,11 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
             </div>
 
             <div className="space-y-4">
-              <label className="text-white font-medium">
-                Can you share a competitor URL?
+              <label className="text-white font-medium flex gap-2">
+                <span>Can you share a competitor URL?</span>
+                <span>[Optional]</span>
               </label>
-              <div className="flex flex-wrap gap-4 items-end">
+              <div className="flex flex-wrap gap-y-4 gap-x-6 items-end">
                 {formData.competitorUrls.map((url, index) => (
                   <CompetitorUrlInput
                     key={index}
@@ -303,7 +304,7 @@ const CompetitorUrlInput = memo(
         placeholder={`Enter Competitor URL ${index + 1}`}
         value={value}
         onChange={handleChange}
-        className="flex-1 min-w-[250px]"
+        className="flex-1 min-w-[250px] max-w-[376.5px]"
       />
     );
   }
