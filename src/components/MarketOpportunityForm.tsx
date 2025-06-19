@@ -303,7 +303,7 @@ const CompetitorUrlInput = memo(
         placeholder={`Enter Competitor URL ${index + 1}`}
         value={value}
         onChange={handleChange}
-        className="flex-1 min-w-[250px]"
+        className="flex-1 min-w-[250px] max-w-[380.5px]"
       />
     );
   }
