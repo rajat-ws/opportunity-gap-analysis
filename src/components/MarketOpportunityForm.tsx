@@ -23,13 +23,13 @@ interface MarketOpportunityFormProps {
 
 const MemoizedInput = memo(
   ({ value, onChange, ...props }: React.ComponentProps<typeof Input>) => (
-    <Input value={value} onChange={onChange} {...props} className={cn("h-14",props.className && props.className)} />
+    <Input value={value} onChange={onChange} {...props} className={cn("h-14",props.className)} />
   )
 );
 
 const MemoizedTextarea = memo(
   ({ value, onChange, ...props }: React.ComponentProps<typeof Textarea>) => (
-    <Textarea value={value} onChange={onChange} {...props} className={cn("h-36",props.className && props.className)} />
+    <Textarea value={value} onChange={onChange} {...props} className={cn("h-36",props.className)} />
   )
 );
 
