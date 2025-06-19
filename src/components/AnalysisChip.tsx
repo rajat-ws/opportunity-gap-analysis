@@ -4,14 +4,16 @@ import { cn } from '@/lib/utils';
 import PieIcon from '../../public/svg/pie.svg';
 import GreenTickCircle from "../../public/svg/green-tick-circle.svg"
 
+const activeStateStyles = "text-white bg-[linear-gradient(25deg,#9560FF00,#9560FF)] p-0.5";
+
 const analysisChipVariants = cva(
-  "inline-flex items-center gap-4 rounded-full relative overflow-hidden text-[20px] font-[300] leading-[150%] tracking-[0%]",
+  "inline-flex items-center gap-4 rounded-full relative overflow-hidden text-[20px] font-aeonikprotrial-light leading-[150%] tracking-[0%]",
   {
     variants: {
       state: {
         incomplete: "text-white/60 bg-white/30 p-[1px]",
-        loading: "text-white bg-[linear-gradient(25deg,#9560FF00,#9560FF)] p-0.5",
-        complete: "text-white bg-[linear-gradient(25deg,#9560FF00,#9560FF)] p-0.5",
+        loading: activeStateStyles,
+        complete: activeStateStyles,
       },
       size: {
         default: "h-16"

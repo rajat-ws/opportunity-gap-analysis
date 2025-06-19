@@ -68,14 +68,15 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
   }, [isAnalysisComplete, onComplete]);
 
   return (
-    <div className="min-h-screen analysis-bg flex flex-col items-center px-6 pb-6">
+    <div className="min-h-screen analysis-bg flex flex-col items-center [@media(min-width:800px)_and_(min-height:980px)]:justify-center px-6 pb-6">
     <HeroBanner />
 
+    <div className="w-full xl:w-[1152px] flex flex-col gap-y-16" >
   {/* border */}
-    <div className="w-full xl:w-[1152px] h-[1px] opacity-20 border-gradient" />
+    <div className="w-full xl:w-[1152px] h-[1px] opacity-20 border-gradient font-aeonikprotrial-light" />
       <div className="w-full xl:max-w-6xl mx-auto xl:mx-0 flex flex-col xl:flex-row gap-x-[112px] gap-y-8 mt-[60.27px] items-center">
         <div className="space-y-8 mx-auto xl:mx-0 flex flex-col self-start">
-          <h2 className="text-white text-2xl font-semibold">
+          <h2 className="text-white text-xl font-aeonikprotrial-bold">
             {isAnalysisComplete ? (
               <div className="flex items-center gap-x-[14px]">
                 <img
@@ -105,6 +106,17 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
             alt="Analysis progress animation"
           />
         </div>
+      </div>
+
+      <div className="bg-black border border-[#272727] xl:h-[68px] flex items-center justify-center px-8 py-4" >
+      <p className="text-gray-300 text-2xl font-aeonikprotrial-bold">
+              Wednesday has helped{" "}
+              <span className="text-[#BDA2F4]">
+                over 50 digital first companies
+              </span>
+              {" "}achieve PMF.
+            </p>
+      </div>
       </div>
     </div>
   );

@@ -120,3 +120,23 @@
   background: radial-gradient(ellipse at 80% 20%, rgb(29, 23, 37) 50%, rgb(19, 19, 18) 70%, transparent 90%), 
               linear-gradient(135deg, #000 10%, transparent 60%);
 }
+
+@font-face {
+  font-family: "zangezi08_Trial";
+  src: url("/public/fonts/Zangezi08_Trial-SemiLight.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "aeonikprotrial-light";
+  src: url("/public/fonts/aeonikprotrial-light.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "aeonikprotrial-regular";
+  src: url("/public/fonts/aeonikprotrial-regular.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "aeonikprotrial-bold";
+  src: url("/public/fonts/aeonikprotrial-bold.otf") format("truetype");
+}

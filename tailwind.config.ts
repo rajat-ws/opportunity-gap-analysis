@@ -69,6 +69,12 @@ export default {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
+			fontFamily: {
+				"zangezi08-trial": ["zangezi08_Trial", "sans-serif"],
+				"aeonikprotrial-light": ["aeonikprotrial-light", "sans-serif"],
+				"aeonikprotrial-regular": ["aeonikprotrial-regular", "sans-serif"],
+				"aeonikprotrial-bold": ["aeonikprotrial-bold", "sans-serif"],
+			},
 			keyframes: {
 				'accordion-down': {
 					from: {
