@@ -110,7 +110,7 @@ const AnalysisScreen = ({ onComplete }: AnalysisScreenProps) => {
 
       <div className="bg-black border border-[#272727] xl:h-[68px] flex items-center justify-center px-8 py-4" >
       <p className="text-gray-300 text-2xl font-aeonikprotrial-bold">
-              Wednesday has helped{" "}
+              Wednesday has helped
               <span className="text-[#BDA2F4]">
                 over 50 digital first companies
               </span>
