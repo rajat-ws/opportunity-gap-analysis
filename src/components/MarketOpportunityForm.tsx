@@ -224,8 +224,9 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
             </div>
 
             <div className="space-y-4">
-              <label className="text-white font-medium whitespace-pre-wrap">
-                Can you share a competitor URL?   [Optional]
+              <label className="text-white font-medium flex gap-2">
+                <span>Can you share a competitor URL?</span>
+                <span>[Optional]</span>
               </label>
               <div className="flex flex-wrap gap-y-4 gap-x-6 items-end">
                 {formData.competitorUrls.map((url, index) => (
