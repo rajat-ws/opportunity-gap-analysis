@@ -319,3 +319,56 @@ if (typeof window !== "undefined") {
   console.log("  webhookTester.testPOST() - Test POST");
   console.log("  webhookTester.runAll() - Run all tests");
 }
+
+// Test file to verify API endpoints
+import { apiService } from "./lib/api";
+
+const testApiEndpoints = async () => {
+  console.log("Testing API endpoints...");
+
+  try {
+    // Test the trigger endpoint
+    const testData = {
+      market_segment: "AI-powered writing assistants",
+      business_problem:
+        "Team collaboration, workflow integration, and analytics",
+      user_segment:
+        "Writers (creative, professional, academic), marketers, students, Freelancers",
+      competitor: [
+        "https://sudowrite.com/?via=aitoolsdirectory",
+        "https://prowritingaid.com/",
+        "https://www.paragraphai.com/?ref=ffmedia",
+        "gomoonbeam.com",
+        "https://writersbrew.app/",
+      ],
+    };
+
+    console.log("Triggering analysis with test data:", testData);
+
+    const triggerResponse =
+      await apiService.triggerOpportunityGapAnalysis(testData);
+    console.log("Trigger response:", triggerResponse);
+
+    if (triggerResponse.id) {
+      console.log("Analysis ID received:", triggerResponse.id);
+
+      // Test polling for results
+      console.log("Starting to poll for results...");
+      const result = await apiService.pollForResults(triggerResponse.id);
+      console.log("Final result:", result);
+    }
+  } catch (error) {
+    console.error("API test failed:", error);
+  }
+};
+
+// Run the test if this file is executed directly
+if (typeof window !== "undefined") {
+  // Browser environment
+  (window as any).testApiEndpoints = testApiEndpoints;
+} else {
+  // Node.js environment
+  testApiEndpoints();
+}
+
+export { testApiEndpoints };

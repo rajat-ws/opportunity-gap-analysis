@@ -1,6 +1,7 @@
 import AnalysisScreen from "@/components/AnalysisScreen";
 import CompetitorsLandscapeDemo from "@/components/CompetitorsLandscapeDemo";
 import MarketOpportunityForm from "@/components/MarketOpportunityForm";
+import { useOpportunityGapAnalysis } from "@/hooks/useOpportunityGapAnalysis";
 import { useState } from "react";
 
 interface FormData {
@@ -18,6 +19,8 @@ const Index = () => {
   >("form");
   const [formData, setFormData] = useState<FormData | null>(null);
 
+  const { isTriggering, validationErrors, error } = useOpportunityGapAnalysis();
+
   const handleFormSubmit = (data: FormData) => {
     console.log("Form submitted:", data);
     setFormData(data);
@@ -32,9 +35,21 @@ const Index = () => {
   const renderCurrentStep = () => {
     switch (currentStep) {
       case "form":
-        return <MarketOpportunityForm onNext={handleFormSubmit} />;
+        return (
+          <MarketOpportunityForm
+            onNext={handleFormSubmit}
+            isLoading={isTriggering}
+            validationErrors={validationErrors}
+            error={error}
+          />
+        );
       case "analysis":
-        return <AnalysisScreen onComplete={handleAnalysisComplete} />;
+        return formData ? (
+          <AnalysisScreen
+            onComplete={handleAnalysisComplete}
+            formData={formData}
+          />
+        ) : null;
       case "reports":
         return <CompetitorsLandscapeDemo />;
       default:
