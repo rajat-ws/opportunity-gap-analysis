@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus } from "lucide-react";
+
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import Arrow from "../../public/svg/arrow.svg";
 import HeroBanner from "./HeroBanner";
+import Plus from "../../public/svg/plus-white.svg"
+import { cn } from "@/lib/utils";
 
 interface FormData {
   marketSegment: string;
@@ -21,13 +23,13 @@ interface MarketOpportunityFormProps {
 
 const MemoizedInput = memo(
   ({ value, onChange, ...props }: React.ComponentProps<typeof Input>) => (
-    <Input value={value} onChange={onChange} {...props} />
+    <Input value={value} onChange={onChange} {...props} className={cn("h-14",props.className && props.className)} />
   )
 );
 
 const MemoizedTextarea = memo(
   ({ value, onChange, ...props }: React.ComponentProps<typeof Textarea>) => (
-    <Textarea value={value} onChange={onChange} {...props} />
+    <Textarea value={value} onChange={onChange} {...props} className={cn("h-36",props.className && props.className)} />
   )
 );
 
@@ -36,9 +38,10 @@ const MemoizedAddButton = memo(({ onClick }: { onClick: () => void }) => (
     type="button"
     onClick={onClick}
     variant="outline"
-    className="h-12 px-6 bg-black border border-[#dee0e399] hover:bg-[#2f2f30] hover:text-white"
+    className="h-14 px-6 bg-black border border-[#dee0e399] hover:bg-[#2f2f30] hover:text-white font-aeonikprotrial-bold"
   >
-    <Plus className="w-4 h-4 mr-2" />
+    {/* <Plus className="w-4 h-4 mr-2" /> */}
+    <img src={Plus} aria-hidden={true} className="w-4 h-4 mr-4" />
     Add more
   </Button>
 ));
@@ -52,6 +55,7 @@ const MemoizedSubmitButton = memo(
       variant="primary"
       size="primary"
       font="primary"
+      className="font-aeonikprotrial-bold h-24"
     >
       Start Analysis
     </Button>
@@ -165,10 +169,10 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
       <div className="flex flex-col items-center [@media(min-width:800px)_and_(min-height:980px)]:justify-center p-6 relative h-full overflow-y-auto">
         <HeroBanner />
         <div className="w-full max-w-[777px] mx-auto lg:mx-0">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-y-8">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-y-8 font-aeonikprotrial-light">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
-                <label className="text-white font-medium">
+                <label className="text-white">
                   What is your market segment?
                 </label>
                 <MemoizedInput
@@ -255,7 +259,7 @@ const MarketOpportunityForm = ({ onNext }: MarketOpportunityFormProps) => {
           </form>
 
           <div className="text-center mt-12">
-            <p className="text-gray-300 text-2xl">
+            <p className="text-gray-300 text-2xl font-aeonikprotrial-bold">
               Wednesday has helped{" "}
               <span className="text-[#BDA2F4]">
                 over 50 digital first companies
@@ -299,7 +303,7 @@ const CompetitorUrlInput = memo(
         placeholder={`Enter Competitor URL ${index + 1}`}
         value={value}
         onChange={handleChange}
-        className="h-12 flex-1 min-w-[250px]"
+        className="flex-1 min-w-[250px]"
       />
     );
   }

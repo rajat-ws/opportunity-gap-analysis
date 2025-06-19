@@ -5,7 +5,7 @@ import PieIcon from '../../public/svg/pie.svg';
 import GreenTickCircle from "../../public/svg/green-tick-circle.svg"
 
 const analysisChipVariants = cva(
-  "inline-flex items-center gap-4 rounded-full relative overflow-hidden text-[20px] font-[300] leading-[150%] tracking-[0%]",
+  "inline-flex items-center gap-4 rounded-full relative overflow-hidden text-[20px] font-aeonikprotrial-light leading-[150%] tracking-[0%]",
   {
     variants: {
       state: {
