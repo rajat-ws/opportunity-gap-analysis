@@ -15,7 +15,6 @@ const Index = () => {
     triggerAnalysis,
     pollForResults,
     result,
-    completedSteps,
     pollingAttempts,
   } = useOpportunityGapAnalysis();
 
@@ -42,7 +41,6 @@ const Index = () => {
             triggerAnalysis={triggerAnalysis}
             pollForResults={pollForResults}
             result={result}
-            completedSteps={completedSteps}
             pollingAttempts={pollingAttempts}
             error={error}
           />
