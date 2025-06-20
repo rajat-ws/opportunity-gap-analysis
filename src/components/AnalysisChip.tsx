@@ -30,6 +30,7 @@ interface AnalysisChipProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof analysisChipVariants> {
   children: React.ReactNode;
+  icon?: string;
 }
 
 const AnalysisChip = React.memo(({
@@ -37,6 +38,7 @@ const AnalysisChip = React.memo(({
   state,
   className,
   size,
+  icon,
   ...props
 }: AnalysisChipProps) => {
   return (
@@ -60,7 +62,7 @@ const AnalysisChip = React.memo(({
         {/* Left Icon */}
         <div className="rounded-full bg-white/10 flex items-center justify-center w-10 h-10">
           <img 
-            src={PieIcon} 
+            src={icon || PieIcon} 
             aria-hidden={true} 
             className="w-6 h-6" 
           />

@@ -2,8 +2,13 @@ import { cn } from "@/lib/utils";
 import React, { useCallback, useMemo } from "react";
 import AnalysisChip from "./AnalysisChip";
 
+interface AnalysisChipItem {
+  text: string;
+  icon?: string;
+}
+
 interface AnalysisChipSetProps {
-  items: string[];
+  items: AnalysisChipItem[];
   currentIndex?: number;
   completedSteps?: boolean[];
   className?: string;
@@ -35,11 +40,12 @@ const AnalysisChipSet: React.FC<AnalysisChipSetProps> = ({
       const state = getChipState(index);
       return (
         <AnalysisChip
-          key={`analysis-${item}-${index}`}
+          key={`analysis-${item.text}-${index}`}
           state={state}
+          icon={item.icon}
           className={cn(chipClassName)}
         >
-          {item}
+          {item.text}
         </AnalysisChip>
       );
     });

@@ -1,32 +1,31 @@
 import AnalysisScreen from "@/components/AnalysisScreen";
-import CompetitorsLandscapeDemo from "@/components/CompetitorsLandscapeDemo";
+// import CompetitorsLandscapeDemo from "@/components/CompetitorsLandscapeDemo";
 import MarketOpportunityForm from "@/components/MarketOpportunityForm";
 import { useOpportunityGapAnalysis } from "@/hooks/useOpportunityGapAnalysis";
-import { AnalysisOutputResponse } from "@/lib/api";
+// import { AnalysisOutputResponse } from "@/lib/api";
 import { FormData } from "@/lib/validation";
 import { useCallback, useState } from "react";
+
+// reports page won't be show cased in this release
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState<
     "form" | "analysis" | "reports"
   >("form");
   const [formData, setFormData] = useState<FormData | null>(null);
-  const [analysisData, setAnalysisData] =
-    useState<AnalysisOutputResponse | null>(null);
+  // const [analysisData, setAnalysisData] = useState<AnalysisOutputResponse | null>(null);
 
   const { isTriggering, validationErrors, error } = useOpportunityGapAnalysis();
 
   const handleFormSubmit = useCallback((data: FormData) => {
-    console.log("Form submitted:", data);
     setFormData(data);
     setCurrentStep("analysis");
   }, []);
 
   const handleAnalysisComplete = useCallback(
-    (data?: AnalysisOutputResponse) => {
-      console.log("Analysis complete", data);
-      setAnalysisData(data || null);
-      setCurrentStep("reports");
+    () => {
+      // setAnalysisData(data || null);
+      // setCurrentStep("reports");
     },
     []
   );
@@ -49,8 +48,8 @@ const Index = () => {
             formData={formData}
           />
         ) : null;
-      case "reports":
-        return <CompetitorsLandscapeDemo analysisData={analysisData} />;
+      /* case "reports":
+        return <CompetitorsLandscapeDemo analysisData={analysisData} />; */
       default:
         return null;
     }
