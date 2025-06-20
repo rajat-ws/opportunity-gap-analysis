@@ -1,12 +1,3 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { AnalysisOutputResponse } from "@/lib/api";
 import { FormData, ValidationError } from "@/lib/validation";
 import { useEffect, useRef, useState } from "react";
@@ -43,12 +34,6 @@ interface AnalysisScreenProps {
     error?: string;
   }>;
   result: AnalysisOutputResponse | null;
-  completedSteps: {
-    competitorLandscape: boolean;
-    customerSegmentation: boolean;
-    unmetNeeds: boolean;
-    featureBacklog: boolean;
-  };
   pollingAttempts: number;
   error: string | null;
 }
@@ -58,7 +43,6 @@ const AnalysisScreen = ({
   triggerAnalysis,
   pollForResults,
   result,
-  completedSteps,
   pollingAttempts,
   error,
 }: AnalysisScreenProps) => {
@@ -71,9 +55,14 @@ const AnalysisScreen = ({
 
   const [currentStep, setCurrentStep] = useState(0);
   const [isAnalysisComplete, setIsAnalysisComplete] = useState(false);
-  const [showCompletionDialog, setShowCompletionDialog] = useState(false);
   const [analysisMessage, setAnalysisMessage] = useState("Analyzing...");
   const [currentGifIndex, setCurrentGifIndex] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState({
+    competitorLandscape: false,
+    customerSegmentation: false,
+    unmetNeeds: false,
+    featureBacklog: false,
+  });
 
   // Add ref to track if analysis has been started
   const hasStartedAnalysis = useRef(false);
@@ -86,42 +75,53 @@ const AnalysisScreen = ({
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, []);
 
-  // Start the analysis when component mounts
+  // Update completed steps every 3 seconds
   useEffect(() => {
-    // Prevent duplicate API calls
-    if (hasStartedAnalysis.current) {
+    // Only start the progression if analysis is not complete
+    if (isAnalysisComplete) {
       return;
     }
 
-    hasStartedAnalysis.current = true;
-
-    const startAnalysis = async () => {
-      try {
-        const response = await triggerAnalysis(formData);
-        if (response.success && response.analysisId) {
-          // Start polling for results
-          const pollResponse = await pollForResults(response.analysisId);
-          if (pollResponse.success) {
-            setIsAnalysisComplete(true);
-            setShowCompletionDialog(true);
-          }
+    const stepKeys = ['competitorLandscape', 'customerSegmentation', 'unmetNeeds', 'featureBacklog'] as const;
+    
+    // Find the first incomplete step
+    const findNextStepIndex = () => {
+      for (let i = 0; i < stepKeys.length; i++) {
+        if (!completedSteps[stepKeys[i]]) {
+          return i;
         }
-      } catch (error) {
-        console.error("Analysis failed:", error);
-        // Reset the flag on error so user can retry
-        hasStartedAnalysis.current = false;
       }
+      return stepKeys.length; // All steps completed
     };
 
-    startAnalysis();
+    let currentStepIndex = findNextStepIndex();
 
-    // Cleanup function to reset the flag if component unmounts
-    return () => {
-      hasStartedAnalysis.current = false;
-    };
-  }, [formData, triggerAnalysis, pollForResults]);
+    // If all steps are already completed, mark analysis as complete
+    if (currentStepIndex >= stepKeys.length) {
+      setIsAnalysisComplete(true);
+      return;
+    }
 
-  // Update current step based on completed steps from API
+    const intervalId = setInterval(() => {
+      currentStepIndex = findNextStepIndex();
+      
+      if (currentStepIndex < stepKeys.length) {
+        setCompletedSteps(prev => ({
+          ...prev,
+          [stepKeys[currentStepIndex]]: true
+        }));
+        
+        // Check if this was the last step
+        if (currentStepIndex === stepKeys.length - 1) {
+          setIsAnalysisComplete(true);
+        }
+      }
+    }, 3000); // Update every 3 seconds
+
+    return () => clearInterval(intervalId);
+  }, [completedSteps, isAnalysisComplete]);
+
+  // Update current step based on completed steps
   useEffect(() => {
     if (isAnalysisComplete) {
       setCurrentStep(analysisItems.length); // Ensure all steps are shown as completed
@@ -189,16 +189,18 @@ const AnalysisScreen = ({
           {/* border */}
           <div className="w-full xl:w-[1152px] h-[1px] opacity-20 border-gradient font-aeonikprotrial-light" />
 
-          {/* Updated message with better design and copy */}
-          <div className="w-full max-w-3xl mx-auto">
-            <div className="bg-gradient-to-r from-[#1a1a1a5e] to-[#2a2a2a5a] rounded-lg py-6 px-4 text-center">
-              <p className="text-gray-300 text-sm sm:text-xl leading-relaxed font-aeonikprotrial-light">
-                💌 Your personalised Opportunity Gap Analysis research report
-                will be sent directly to you via email within the next 5
-                minutes.
-              </p>
+          {/* Show completion message when analysis is complete */}
+          {isAnalysisComplete && (
+            <div className="w-full max-w-3xl mx-auto">
+              <div className="bg-gradient-to-r from-[#1a1a1a5e] to-[#2a2a2a5a] rounded-lg py-6 px-4 text-center">
+                <p className="text-gray-300 text-sm sm:text-xl leading-relaxed font-aeonikprotrial-light">
+                  💌 Your personalised Opportunity Gap Analysis research report
+                  will be sent directly to you via email within the next 5
+                  minutes.
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="w-fit xl:max-w-6xl mx-auto xl:mx-0 flex flex-col xl:flex-row gap-x-[112px] gap-y-8 items-center">
             <div className="space-y-8 mx-auto xl:mx-0 flex flex-col self-start">
@@ -231,7 +233,7 @@ const AnalysisScreen = ({
               />
             </div>
 
-            <div className="w-full [@media(min-width:380px)]:w-[300px] [@media(min-width:500px)]:w-[400px] xl:w-[466px] aspect-[466/510] border border-[#272727] bg-black flex items-center justify-center">
+            <div className="w-full [@media(min-width:380px)]:w-[300px] [@media(min-width:500px)]:w-[400px] xl:w-[466px] aspect-[466/510] border border-[#272727] bg-black hidden xl:flex items-center justify-center">
               <img
                 src={gifs[currentGifIndex]}
                 className="w-[178px] h-[178px]"
@@ -251,23 +253,6 @@ const AnalysisScreen = ({
           </div>
         </div>
       </div>
-      <AlertDialog
-        open={showCompletionDialog}
-        onOpenChange={setShowCompletionDialog}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Analysis Completed!</AlertDialogTitle>
-            <AlertDialogDescription>
-              The analysis has been completed successfully. The report will be
-              sent to your email.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction>OK</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </>
   );
 };
