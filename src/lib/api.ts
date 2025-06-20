@@ -1,5 +1,4 @@
-const API_BASE_URL =
-  "http://ec2-13-235-96-123.ap-south-1.compute.amazonaws.com:5678/webhook";
+const API_BASE_URL = "https://n8n.wednesday.is/webhook";
 
 // API Request Types
 export interface OpportunityGapRequest {
