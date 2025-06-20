@@ -9,6 +9,7 @@ export interface OpportunityGapRequest {
   business_problem: string;
   user_segment: string;
   competitor: string[];
+  email: string;
 }
 
 // API Response Types
