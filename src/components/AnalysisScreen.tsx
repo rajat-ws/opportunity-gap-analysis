@@ -1,10 +1,10 @@
 import { useOpportunityGapAnalysis } from "@/hooks/useOpportunityGapAnalysis";
+import { AnalysisOutputResponse } from "@/lib/api";
 import { useEffect, useState } from "react";
 import AnalyticalSkillGif from "../../public/gifs/analytical-skill.gif";
 import SeoGif from "../../public/gifs/seo.gif";
 import GreenTickCircle from "../../public/svg/green-tick-circle.svg";
 import AnalysisChipSet from "./AnalysisChipSet";
-import AnalysisCompleteDialog from "./AnalysisCompleteDialog";
 import HeroBanner from "./HeroBanner";
 
 const getGifAsPerCurrentStep = (currentStep: number): string => {
@@ -16,7 +16,7 @@ const getGifAsPerCurrentStep = (currentStep: number): string => {
 };
 
 interface AnalysisScreenProps {
-  onComplete: () => void;
+  onComplete: (analysisData?: AnalysisOutputResponse) => void;
   formData: {
     marketSegment: string;
     userPersona: string;
@@ -37,7 +37,6 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
 
   const [currentStep, setCurrentStep] = useState(0);
   const [isAnalysisComplete, setIsAnalysisComplete] = useState(false);
-  const [showCompletionDialog, setShowCompletionDialog] = useState(false);
 
   const {
     isTriggering,
@@ -46,6 +45,7 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
     result,
     error,
     insights,
+    completedSteps,
     triggerAnalysis,
     pollForResults,
   } = useOpportunityGapAnalysis();
@@ -59,7 +59,6 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
         const pollResponse = await pollForResults(response.analysisId);
         if (pollResponse.success) {
           setIsAnalysisComplete(true);
-          setShowCompletionDialog(true);
         }
       }
     };
@@ -67,30 +66,38 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
     startAnalysis();
   }, [formData, triggerAnalysis, pollForResults]);
 
-  // Handle analysis steps animation
+  // Update current step based on completed steps from API
   useEffect(() => {
     if (isAnalysisComplete) return;
 
-    const timer = setInterval(() => {
-      setCurrentStep((prev) => {
-        if (prev < analysisItems.length - 1) {
-          return prev + 1;
-        }
-        return prev;
-      });
-    }, 4000);
+    const completedStepsArray = [
+      completedSteps.competitorLandscape,
+      completedSteps.customerSegmentation,
+      completedSteps.unmetNeeds,
+      completedSteps.featureBacklog,
+    ];
 
-    return () => clearInterval(timer);
-  }, [analysisItems.length, isAnalysisComplete]);
+    // Find the first incomplete step
+    const firstIncompleteIndex = completedStepsArray.findIndex((step) => !step);
+    const newCurrentStep =
+      firstIncompleteIndex === -1
+        ? analysisItems.length - 1
+        : Math.max(0, firstIncompleteIndex - 1);
 
-  // Handle completion dialog
-  const handleDialogClose = () => {
-    setShowCompletionDialog(false);
-    // Navigate to next screen after dialog is closed
-    setTimeout(() => {
-      onComplete();
-    }, 500);
-  };
+    setCurrentStep(newCurrentStep);
+  }, [completedSteps, isAnalysisComplete, analysisItems.length]);
+
+  // Auto-navigate to next screen when all steps are completed
+  useEffect(() => {
+    if (isAnalysisComplete) {
+      // Small delay to show the completion state briefly
+      const timer = setTimeout(() => {
+        onComplete(result);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isAnalysisComplete, onComplete, result]);
 
   // Show error state if there's an error
   if (error) {
@@ -142,6 +149,12 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
             <AnalysisChipSet
               items={analysisItems}
               currentIndex={currentStep}
+              completedSteps={[
+                completedSteps.competitorLandscape,
+                completedSteps.customerSegmentation,
+                completedSteps.unmetNeeds,
+                completedSteps.featureBacklog,
+              ]}
               className="w-full xl:w-[442px]"
               chipClassName="[@media(max-width:500px)]:text-xs"
             />
@@ -166,13 +179,6 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
           </p>
         </div>
       </div>
-
-      {/* Completion Dialog */}
-      <AnalysisCompleteDialog
-        isOpen={showCompletionDialog}
-        onClose={handleDialogClose}
-        insights={insights}
-      />
     </div>
   );
 };

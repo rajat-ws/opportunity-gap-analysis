@@ -14,7 +14,8 @@ export interface FormValidationResult {
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // URL validation regex (basic)
-const URL_REGEX = /^https?:\/\/.+/;
+const URL_REGEX =
+  /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
 
 export const validateEmail = (email: string): string | null => {
   if (!email.trim()) {

@@ -119,21 +119,12 @@ const MarketOpportunityForm = ({
   error,
 }: MarketOpportunityFormProps) => {
   const [formData, setFormData] = useState<FormData>({
-    marketSegment: "Digital Investment Platforms for Retail Investors",
-    userPersona:
-      "Tech-savvy young professionals (25-45 years) in urban India, seeking efficient digital-first investment solutions for wealth growth",
-    problemSolving:
-      "Current investment platforms are fragmented, requiring multiple apps for different asset classes. This leads to inefficient portfolio management, delayed investment decisions, and lack of consolidated insights. Users need a unified platform that enables instant investing across asset classes with real-time market data and transparent pricing.",
-    features:
-      "1. Unified investment dashboard for multi-asset investing\n2. Real-time market analytics with personalized insights\n3. One-click portfolio rebalancing\n4. AI-powered investment recommendations\n5. Transparent fee structure with cost comparison tools",
-    competitorUrls: [
-      "https://zerodha.com",
-      "https://upstox.com",
-      "https://groww.in",
-      "https://angelone.in",
-      "https://5paisa.com",
-    ],
-    email: "test@example.com",
+    marketSegment: "",
+    userPersona: "",
+    problemSolving: "",
+    features: "",
+    competitorUrls: [""],
+    email: "",
   });
   const [mascotSrc, setMascotSrc] = useState<string | null>(null);
 

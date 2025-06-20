@@ -18,6 +18,12 @@ export interface AnalysisState {
   error: string | null;
   validationErrors: ValidationError[];
   insights: string[];
+  completedSteps: {
+    competitorLandscape: boolean;
+    customerSegmentation: boolean;
+    unmetNeeds: boolean;
+    featureBacklog: boolean;
+  };
 }
 
 export const useOpportunityGapAnalysis = () => {
@@ -29,6 +35,12 @@ export const useOpportunityGapAnalysis = () => {
     error: null,
     validationErrors: [],
     insights: [],
+    completedSteps: {
+      competitorLandscape: false,
+      customerSegmentation: false,
+      unmetNeeds: false,
+      featureBacklog: false,
+    },
   });
 
   const triggerAnalysis = useCallback(
@@ -48,6 +60,12 @@ export const useOpportunityGapAnalysis = () => {
         validationErrors: [],
         result: null,
         insights: [],
+        completedSteps: {
+          competitorLandscape: false,
+          customerSegmentation: false,
+          unmetNeeds: false,
+          featureBacklog: false,
+        },
       }));
 
       try {
@@ -111,25 +129,55 @@ export const useOpportunityGapAnalysis = () => {
     try {
       const result = await apiService.pollForResults(analysisId);
 
+      console.log({ result });
+
       // Format and log the results to console
       formatAnalysisForConsole(result);
 
       // Extract insights
       const insights = getAnalysisInsights(result);
 
+      // Determine which steps are completed based on available data
+      const completedSteps = {
+        competitorLandscape: result.allItems.some(
+          (item) =>
+            item?.sheetName === "Competitor Landscape" && item.data?.length > 0
+        ),
+        customerSegmentation: result.allItems.some(
+          (item) =>
+            item?.sheetName === "New Customer Segmentation" &&
+            item.data?.length > 0
+        ),
+        unmetNeeds: result.allItems.some(
+          (item) =>
+            item?.sheetName === "Ranked Unmet Needs" && item.data?.length > 0
+        ),
+        featureBacklog: result.allItems.some(
+          (item) =>
+            item?.sheetName === "Priortized Feature Backlog" &&
+            item.data?.length > 0
+        ),
+      };
+
+      console.log({ completedSteps });
+
       setState((prev) => ({
         ...prev,
         isPolling: false,
         result,
         insights,
+        completedSteps,
       }));
 
-      return { success: true, result, insights };
+      return { success: true, result, insights, completedSteps };
     } catch (error) {
       const errorMessage =
         error instanceof Error
           ? error.message
           : "Failed to get analysis results";
+
+      console.log({ error });
+
       setState((prev) => ({
         ...prev,
         isPolling: false,
@@ -148,6 +196,12 @@ export const useOpportunityGapAnalysis = () => {
       error: null,
       validationErrors: [],
       insights: [],
+      completedSteps: {
+        competitorLandscape: false,
+        customerSegmentation: false,
+        unmetNeeds: false,
+        featureBacklog: false,
+      },
     });
   }, []);
 
