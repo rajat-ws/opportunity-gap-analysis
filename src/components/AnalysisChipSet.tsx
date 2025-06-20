@@ -19,14 +19,12 @@ const AnalysisChipSet: React.FC<AnalysisChipSetProps> = ({
 }) => {
   const getChipState = useCallback(
     (index: number): "complete" | "loading" | "incomplete" => {
-      if (completedSteps.length > 0 && index < completedSteps.length) {
-        if (completedSteps[index]) return "complete";
-        if (index === currentIndex) return "loading";
-        return "incomplete";
+      if (completedSteps[index]) {
+        return "complete";
       }
-
-      if (index < currentIndex) return "complete";
-      if (index === currentIndex) return "loading";
+      if (index === currentIndex) {
+        return "loading";
+      }
       return "incomplete";
     },
     [currentIndex, completedSteps]

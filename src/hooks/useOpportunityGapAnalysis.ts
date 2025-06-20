@@ -27,6 +27,17 @@ export interface AnalysisState {
   pollingAttempts: number;
 }
 
+// Centralized configuration for analysis steps and their corresponding sheet names
+const ANALYSIS_STEP_CONFIG: Record<
+  keyof AnalysisState["completedSteps"],
+  string
+> = {
+  competitorLandscape: "Competitor Landscape",
+  customerSegmentation: "New Customer Segmentation",
+  unmetNeeds: "Ranked Unmet Needs",
+  featureBacklog: "Prioritized Feature Backlog", // Corrected typo from "Priortized"
+};
+
 export const useOpportunityGapAnalysis = () => {
   const [state, setState] = useState<AnalysisState>({
     isTriggering: false,
@@ -150,27 +161,19 @@ export const useOpportunityGapAnalysis = () => {
 
       console.log({ insights });
 
-      // Determine which steps are completed based on available data
-      const completedSteps = {
-        competitorLandscape: result.allItems.some(
-          (item) =>
-            item?.sheetName === "Competitor Landscape" && item.data?.length > 0
-        ),
-        customerSegmentation: result.allItems.some(
-          (item) =>
-            item?.sheetName === "New Customer Segmentation" &&
-            item.data?.length > 0
-        ),
-        unmetNeeds: result.allItems.some(
-          (item) =>
-            item?.sheetName === "Ranked Unmet Needs" && item.data?.length > 0
-        ),
-        featureBacklog: result.allItems.some(
-          (item) =>
-            item?.sheetName === "Priortized Feature Backlog" &&
-            item.data?.length > 0
-        ),
-      };
+      // Helper function to check if a sheet has data
+      const isSheetComplete = (sheetName: string) =>
+        result.allItems.some(
+          (item) => item?.sheetName === sheetName && item.data?.length > 0
+        );
+
+      // Dynamically determine completed steps from the config
+      const completedSteps = Object.fromEntries(
+        Object.entries(ANALYSIS_STEP_CONFIG).map(([stepKey, sheetName]) => [
+          stepKey,
+          isSheetComplete(sheetName),
+        ])
+      ) as AnalysisState["completedSteps"];
 
       console.log({ completedSteps });
 
