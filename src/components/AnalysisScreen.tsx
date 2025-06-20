@@ -89,38 +89,29 @@ const AnalysisScreen = ({
       "featureBacklog",
     ] as const;
 
-    // Find the first incomplete step
-    const findNextStepIndex = () => {
-      for (let i = 0; i < stepKeys.length; i++) {
-        if (!completedSteps[stepKeys[i]]) {
-          return i;
-        }
-      }
-      return stepKeys.length; // All steps completed
-    };
-
-    let currentStepIndex = findNextStepIndex();
-
-    // If all steps are already completed, mark analysis as complete
-    if (currentStepIndex >= stepKeys.length) {
-      setIsAnalysisComplete(true);
-      return;
-    }
-
     const intervalId = setInterval(() => {
-      currentStepIndex = findNextStepIndex();
+      setCompletedSteps((prev) => {
+        // Find the first incomplete step in the previous state
+        const currentStepIndex = stepKeys.findIndex((key) => !prev[key]);
 
-      if (currentStepIndex < stepKeys.length) {
-        setCompletedSteps((prev) => ({
+        // If all steps are completed, do nothing.
+        if (currentStepIndex === -1) {
+          return prev;
+        }
+
+        // Mark the current step as completed
+        const newCompletedSteps = {
           ...prev,
           [stepKeys[currentStepIndex]]: true,
-        }));
+        };
 
-        // Check if this was the last step
+        // If this was the last step, mark analysis as complete
         if (currentStepIndex === stepKeys.length - 1) {
           setIsAnalysisComplete(true);
         }
-      }
+
+        return newCompletedSteps;
+      });
     }, 3000); // Update every 3 seconds
 
     return () => clearInterval(intervalId);
