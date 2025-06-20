@@ -102,7 +102,7 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
       return () => clearTimeout(timer);
     }
   }, [isAnalysisComplete, onComplete, result]);
-
+  
   // Show error state if there's an error
   if (error) {
     return (
@@ -133,6 +133,35 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
       <div className="w-full xl:w-[1152px] flex flex-col gap-y-16">
         {/* border */}
         <div className="w-full xl:w-[1152px] h-[1px] opacity-20 border-gradient font-aeonikprotrial-light" />
+        
+        {/* Updated message with better design and copy */}
+        <div className="w-full max-w-2xl mx-auto">
+          <div className="bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] border border-[#3a3a3a] rounded-lg p-6 text-center">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+              <span className="text-yellow-400 font-aeonikprotrial-medium text-sm">ANALYSIS IN PROGRESS</span>
+            </div>
+            <h3 className="text-white text-lg font-aeonikprotrial-bold mb-2">
+              Generating Your Strategic Market Analysis
+            </h3>
+            <p className="text-gray-300 text-sm mb-4 leading-relaxed">
+              Our AI is conducting deep market research and competitor analysis. 
+              This comprehensive process takes <span className="text-white font-medium">3-5 minutes</span>.
+            </p>
+            <div className="flex items-center justify-center gap-4 text-xs text-gray-400">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
+                <span>Stay here for instant results</span>
+              </div>
+              <span className="text-gray-600">or</span>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
+                <span>Close tab - we'll email your report</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <div className="w-full xl:max-w-6xl mx-auto xl:mx-0 flex flex-col xl:flex-row gap-x-[112px] gap-y-8 mt-[60.27px] items-center">
           <div className="space-y-8 mx-auto xl:mx-0 flex flex-col self-start">
             <h2 className="text-white text-xl font-aeonikprotrial-bold">
