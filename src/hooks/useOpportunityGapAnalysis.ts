@@ -100,6 +100,7 @@ export const useOpportunityGapAnalysis = () => {
           business_problem: formData.problemSolving,
           user_segment: formData.userPersona,
           competitor: formData.competitorUrls.filter((url) => url.trim()),
+          email: formData.email,
         };
 
         // Trigger the analysis
