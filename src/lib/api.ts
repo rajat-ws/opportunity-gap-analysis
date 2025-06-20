@@ -1,7 +1,5 @@
-// API service for opportunity gap analysis
-
 const API_BASE_URL =
-  "http://ec2-3-110-146-236.ap-south-1.compute.amazonaws.com:5678/webhook";
+  "http://ec2-13-235-96-123.ap-south-1.compute.amazonaws.com:5678/webhook";
 
 // API Request Types
 export interface OpportunityGapRequest {
