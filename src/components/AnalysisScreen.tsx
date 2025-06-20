@@ -82,8 +82,13 @@ const AnalysisScreen = ({
       return;
     }
 
-    const stepKeys = ['competitorLandscape', 'customerSegmentation', 'unmetNeeds', 'featureBacklog'] as const;
-    
+    const stepKeys = [
+      "competitorLandscape",
+      "customerSegmentation",
+      "unmetNeeds",
+      "featureBacklog",
+    ] as const;
+
     // Find the first incomplete step
     const findNextStepIndex = () => {
       for (let i = 0; i < stepKeys.length; i++) {
@@ -104,13 +109,13 @@ const AnalysisScreen = ({
 
     const intervalId = setInterval(() => {
       currentStepIndex = findNextStepIndex();
-      
+
       if (currentStepIndex < stepKeys.length) {
-        setCompletedSteps(prev => ({
+        setCompletedSteps((prev) => ({
           ...prev,
-          [stepKeys[currentStepIndex]]: true
+          [stepKeys[currentStepIndex]]: true,
         }));
-        
+
         // Check if this was the last step
         if (currentStepIndex === stepKeys.length - 1) {
           setIsAnalysisComplete(true);
@@ -119,7 +124,7 @@ const AnalysisScreen = ({
     }, 3000); // Update every 3 seconds
 
     return () => clearInterval(intervalId);
-  }, [completedSteps, isAnalysisComplete]);
+  }, [isAnalysisComplete]);
 
   // Update current step based on completed steps
   useEffect(() => {
