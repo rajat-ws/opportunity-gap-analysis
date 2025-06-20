@@ -37,18 +37,10 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
 
   const [currentStep, setCurrentStep] = useState(0);
   const [isAnalysisComplete, setIsAnalysisComplete] = useState(false);
+  const [analysisMessage, setAnalysisMessage] = useState("Analyzing...");
 
-  const {
-    isTriggering,
-    isPolling,
-    analysisId,
-    result,
-    error,
-    insights,
-    completedSteps,
-    triggerAnalysis,
-    pollForResults,
-  } = useOpportunityGapAnalysis();
+  const { result, error, completedSteps, triggerAnalysis, pollForResults } =
+    useOpportunityGapAnalysis();
 
   // Start the analysis when component mounts
   useEffect(() => {
@@ -70,6 +62,13 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
   useEffect(() => {
     if (isAnalysisComplete) return;
 
+    const messages = [
+      "Analyzing...",
+      "Surveying up and down..",
+      "Hold on, we are almost there...",
+      "Hold on, we are almost there...",
+    ];
+
     const completedStepsArray = [
       completedSteps.competitorLandscape,
       completedSteps.customerSegmentation,
@@ -82,9 +81,10 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
     const newCurrentStep =
       firstIncompleteIndex === -1
         ? analysisItems.length - 1
-        : Math.max(0, firstIncompleteIndex - 1);
+        : firstIncompleteIndex;
 
     setCurrentStep(newCurrentStep);
+    setAnalysisMessage(messages[newCurrentStep]);
   }, [completedSteps, isAnalysisComplete, analysisItems.length]);
 
   // Auto-navigate to next screen when all steps are completed
@@ -139,10 +139,10 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
                     aria-hidden={true}
                     className="w-6 h-6 shrink-0"
                   />
-                  <p>Analysis Complete!</p>
+                  <p>Analysis Completed!</p>
                 </div>
               ) : (
-                "Analyzing..."
+                analysisMessage
               )}
             </h2>
 

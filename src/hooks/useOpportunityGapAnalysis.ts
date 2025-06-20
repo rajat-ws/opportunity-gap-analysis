@@ -137,6 +137,8 @@ export const useOpportunityGapAnalysis = () => {
       // Extract insights
       const insights = getAnalysisInsights(result);
 
+      console.log({ insights });
+
       // Determine which steps are completed based on available data
       const completedSteps = {
         competitorLandscape: result.allItems.some(

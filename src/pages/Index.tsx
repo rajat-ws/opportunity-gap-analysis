@@ -3,7 +3,7 @@ import CompetitorsLandscapeDemo from "@/components/CompetitorsLandscapeDemo";
 import MarketOpportunityForm from "@/components/MarketOpportunityForm";
 import { useOpportunityGapAnalysis } from "@/hooks/useOpportunityGapAnalysis";
 import { AnalysisOutputResponse } from "@/lib/api";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 interface FormData {
   marketSegment: string;
@@ -24,17 +24,20 @@ const Index = () => {
 
   const { isTriggering, validationErrors, error } = useOpportunityGapAnalysis();
 
-  const handleFormSubmit = (data: FormData) => {
+  const handleFormSubmit = useCallback((data: FormData) => {
     console.log("Form submitted:", data);
     setFormData(data);
     setCurrentStep("analysis");
-  };
+  }, []);
 
-  const handleAnalysisComplete = (data?: AnalysisOutputResponse) => {
-    console.log("Analysis complete", data);
-    setAnalysisData(data || null);
-    setCurrentStep("reports");
-  };
+  const handleAnalysisComplete = useCallback(
+    (data?: AnalysisOutputResponse) => {
+      console.log("Analysis complete", data);
+      setAnalysisData(data || null);
+      setCurrentStep("reports");
+    },
+    []
+  );
 
   const renderCurrentStep = () => {
     switch (currentStep) {
