@@ -24,6 +24,9 @@ const AnalysisChipSet: React.FC<AnalysisChipSetProps> = ({
 }) => {
   const getChipState = useCallback(
     (index: number): "complete" | "loading" | "incomplete" => {
+      if (currentIndex >= items.length) {
+        return "complete";
+      }
       if (completedSteps[index]) {
         return "complete";
       }
@@ -32,7 +35,7 @@ const AnalysisChipSet: React.FC<AnalysisChipSetProps> = ({
       }
       return "incomplete";
     },
-    [currentIndex, completedSteps]
+    [currentIndex, completedSteps, items.length]
   );
 
   const memoizedChips = useMemo(() => {

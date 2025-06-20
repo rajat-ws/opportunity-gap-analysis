@@ -5,21 +5,23 @@ import { FormData } from "@/lib/validation";
 import { useCallback, useState } from "react";
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState<
-    "form" | "analysis" | "reports"
-  >("form");
+  const [currentStep, setCurrentStep] = useState<"form" | "analysis">("form");
   const [formData, setFormData] = useState<FormData | null>(null);
 
-  const { isTriggering, validationErrors, error } = useOpportunityGapAnalysis();
+  const {
+    isTriggering,
+    validationErrors,
+    error,
+    triggerAnalysis,
+    pollForResults,
+    result,
+    completedSteps,
+    pollingAttempts,
+  } = useOpportunityGapAnalysis();
 
   const handleFormSubmit = useCallback((data: FormData) => {
     setFormData(data);
     setCurrentStep("analysis");
-  }, []);
-
-  const handleAnalysisComplete = useCallback(() => {
-    // setAnalysisData(data || null);
-    // setCurrentStep("reports");
   }, []);
 
   const renderCurrentStep = () => {
@@ -36,12 +38,15 @@ const Index = () => {
       case "analysis":
         return formData ? (
           <AnalysisScreen
-            onComplete={handleAnalysisComplete}
             formData={formData}
+            triggerAnalysis={triggerAnalysis}
+            pollForResults={pollForResults}
+            result={result}
+            completedSteps={completedSteps}
+            pollingAttempts={pollingAttempts}
+            error={error}
           />
         ) : null;
-      /* case "reports":
-        return <CompetitorsLandscapeDemo analysisData={analysisData} />; */
       default:
         return null;
     }

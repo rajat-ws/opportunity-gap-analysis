@@ -1,70 +1,132 @@
-import { useOpportunityGapAnalysis } from "@/hooks/useOpportunityGapAnalysis";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { AnalysisOutputResponse } from "@/lib/api";
-import { FormData } from "@/lib/validation";
-import { useEffect, useState } from "react";
+import { FormData, ValidationError } from "@/lib/validation";
+import { useEffect, useRef, useState } from "react";
 import AnalyticalSkillGif from "../../public/gifs/analytical-skill.gif";
 import SeoGif from "../../public/gifs/seo.gif";
 import GreenTickCircle from "../../public/svg/green-tick-circle.svg";
+import SettingGear from "../../public/svg/keyboard-option-setting-gear.svg";
+import PieIcon from "../../public/svg/pie.svg";
+import RankIcon from "../../public/svg/ranking-light.svg";
+import UserIdIcon from "../../public/svg/user-id-outline.svg";
 import AnalysisChipSet from "./AnalysisChipSet";
 import HeroBanner from "./HeroBanner";
-import PieIcon from '../../public/svg/pie.svg';
-import UserIdIcon from "../../public/svg/user-id-outline.svg";
-import RankIcon from "../../public/svg/ranking-light.svg";
-import SettingGear from "../../public/svg/keyboard-option-setting-gear.svg";
 
-const getGifAsPerCurrentStep = (currentStep: number): string => {
-  // currently the gifs are being alternated. maybe in future a different gif will be provided for each index
-  if (currentStep % 2 === 0) {
-    return SeoGif;
-  }
-  return AnalyticalSkillGif;
-};
+const gifs = [SeoGif, AnalyticalSkillGif];
 
 interface AnalysisScreenProps {
-  onComplete: (analysisData?: AnalysisOutputResponse) => void;
   formData: FormData;
+  triggerAnalysis: (formData: {
+    marketSegment: string;
+    userPersona: string;
+    problemSolving: string;
+    features: string;
+    competitorUrls: string[];
+    email: string;
+  }) => Promise<{
+    success: boolean;
+    analysisId?: string;
+    error?: string;
+    validationErrors?: ValidationError[];
+  }>;
+  pollForResults: (analysisId: string) => Promise<{
+    success: boolean;
+    result?: AnalysisOutputResponse;
+    error?: string;
+  }>;
+  result: AnalysisOutputResponse | null;
+  completedSteps: {
+    competitorLandscape: boolean;
+    customerSegmentation: boolean;
+    unmetNeeds: boolean;
+    featureBacklog: boolean;
+  };
+  pollingAttempts: number;
+  error: string | null;
 }
 
-const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
+const AnalysisScreen = ({
+  formData,
+  triggerAnalysis,
+  pollForResults,
+  result,
+  completedSteps,
+  pollingAttempts,
+  error,
+}: AnalysisScreenProps) => {
   const analysisItems = [
-    { text: "Competitor Landscape",icon: PieIcon},
-    { text: "New Customer Segmentation",icon: UserIdIcon },
-    { text: "Ranked Unmet Needs",icon: RankIcon },
-    { text: "Prioritized Feature Backlog",icon: SettingGear },
+    { text: "Competitor Landscape", icon: PieIcon },
+    { text: "New Customer Segmentation", icon: UserIdIcon },
+    { text: "Ranked Unmet Needs", icon: RankIcon },
+    { text: "Prioritized Feature Backlog", icon: SettingGear },
   ];
 
   const [currentStep, setCurrentStep] = useState(0);
   const [isAnalysisComplete, setIsAnalysisComplete] = useState(false);
+  const [showCompletionDialog, setShowCompletionDialog] = useState(false);
   const [analysisMessage, setAnalysisMessage] = useState("Analyzing...");
+  const [currentGifIndex, setCurrentGifIndex] = useState(0);
 
-  const {
-    result,
-    error,
-    completedSteps,
-    triggerAnalysis,
-    pollForResults,
-    pollingAttempts,
-  } = useOpportunityGapAnalysis();
+  // Add ref to track if analysis has been started
+  const hasStartedAnalysis = useRef(false);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentGifIndex((prevIndex) => (prevIndex + 1) % gifs.length);
+    }, 20000); // Change GIF every 20 seconds
+
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  }, []);
 
   // Start the analysis when component mounts
   useEffect(() => {
+    // Prevent duplicate API calls
+    if (hasStartedAnalysis.current) {
+      return;
+    }
+
+    hasStartedAnalysis.current = true;
+
     const startAnalysis = async () => {
-      const response = await triggerAnalysis(formData);
-      if (response.success && response.analysisId) {
-        // Start polling for results
-        const pollResponse = await pollForResults(response.analysisId);
-        if (pollResponse.success) {
-          setIsAnalysisComplete(true);
+      try {
+        const response = await triggerAnalysis(formData);
+        if (response.success && response.analysisId) {
+          // Start polling for results
+          const pollResponse = await pollForResults(response.analysisId);
+          if (pollResponse.success) {
+            setIsAnalysisComplete(true);
+            setShowCompletionDialog(true);
+          }
         }
+      } catch (error) {
+        console.error("Analysis failed:", error);
+        // Reset the flag on error so user can retry
+        hasStartedAnalysis.current = false;
       }
     };
 
     startAnalysis();
+
+    // Cleanup function to reset the flag if component unmounts
+    return () => {
+      hasStartedAnalysis.current = false;
+    };
   }, [formData, triggerAnalysis, pollForResults]);
 
   // Update current step based on completed steps from API
   useEffect(() => {
-    if (isAnalysisComplete) return;
+    if (isAnalysisComplete) {
+      setCurrentStep(analysisItems.length); // Ensure all steps are shown as completed
+      return;
+    }
 
     const messages = [
       "Analyzing...",
@@ -95,18 +157,6 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
     pollingAttempts,
   ]);
 
-  // Auto-navigate to next screen when all steps are completed
-  useEffect(() => {
-    if (isAnalysisComplete) {
-      // Small delay to show the completion state briefly
-      const timer = setTimeout(() => {
-        onComplete(result);
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isAnalysisComplete, onComplete, result]);
-  
   // Show error state if there's an error
   if (error) {
     return (
@@ -131,73 +181,94 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
   }
 
   return (
-    <div className="min-h-screen analysis-bg flex flex-col items-center [@media(min-width:800px)_and_(min-height:980px)]:justify-center px-6 py-6">
-      <HeroBanner />
+    <>
+      <div className="min-h-screen analysis-bg flex flex-col items-center [@media(min-width:800px)_and_(min-height:980px)]:justify-center px-6 py-6">
+        <HeroBanner />
 
-      <div className="w-full xl:w-[1152px] flex flex-col items-center gap-y-16">
-        {/* border */}
-        <div className="w-full xl:w-[1152px] h-[1px] opacity-20 border-gradient font-aeonikprotrial-light" />
-        
-        {/* Updated message with better design and copy */}
-        <div className="w-full max-w-3xl mx-auto">
-          <div className="bg-gradient-to-r from-[#1a1a1a5e] to-[#2a2a2a5a] rounded-lg py-6 px-4 text-center">
-            <p className="text-gray-300 text-sm sm:text-xl leading-relaxed font-aeonikprotrial-light">
-              💌 Your personalized Opportunity Gap Analysis research report will be sent directly to you via email.
+        <div className="w-full xl:w-[1152px] flex flex-col items-center gap-y-16">
+          {/* border */}
+          <div className="w-full xl:w-[1152px] h-[1px] opacity-20 border-gradient font-aeonikprotrial-light" />
+
+          {/* Updated message with better design and copy */}
+          <div className="w-full max-w-3xl mx-auto">
+            <div className="bg-gradient-to-r from-[#1a1a1a5e] to-[#2a2a2a5a] rounded-lg py-6 px-4 text-center">
+              <p className="text-gray-300 text-sm sm:text-xl leading-relaxed font-aeonikprotrial-light">
+                💌 Your personalised Opportunity Gap Analysis research report
+                will be sent directly to you via email within the next 5
+                minutes.
+              </p>
+            </div>
+          </div>
+
+          <div className="w-fit xl:max-w-6xl mx-auto xl:mx-0 flex flex-col xl:flex-row gap-x-[112px] gap-y-8 items-center">
+            <div className="space-y-8 mx-auto xl:mx-0 flex flex-col self-start">
+              <h2 className="text-white text-xl font-aeonikprotrial-bold">
+                {isAnalysisComplete ? (
+                  <div className="flex items-center gap-x-[14px]">
+                    <img
+                      src={GreenTickCircle}
+                      aria-hidden={true}
+                      className="w-6 h-6 shrink-0"
+                    />
+                    <p>Analysis Completed!</p>
+                  </div>
+                ) : (
+                  analysisMessage
+                )}
+              </h2>
+
+              <AnalysisChipSet
+                items={analysisItems}
+                currentIndex={currentStep}
+                completedSteps={[
+                  completedSteps.competitorLandscape,
+                  completedSteps.customerSegmentation,
+                  completedSteps.unmetNeeds,
+                  completedSteps.featureBacklog,
+                ]}
+                className="w-full xl:w-[442px]"
+                chipClassName="[@media(max-width:500px)]:text-xs"
+              />
+            </div>
+
+            <div className="w-full [@media(min-width:380px)]:w-[300px] [@media(min-width:500px)]:w-[400px] xl:w-[466px] aspect-[466/510] border border-[#272727] bg-black flex items-center justify-center">
+              <img
+                src={gifs[currentGifIndex]}
+                className="w-[178px] h-[178px]"
+                alt="Analysis progress animation"
+              />
+            </div>
+          </div>
+
+          <div className="bg-black border border-[#272727] xl:h-[68px] flex items-center justify-center px-8 py-4">
+            <p className="text-gray-300 text-2xl font-aeonikprotrial-bold">
+              Wednesday has helped{" "}
+              <span className="text-[#BDA2F4]">
+                over 50 digital first companies
+              </span>{" "}
+              achieve PMF.
             </p>
           </div>
         </div>
-        
-        <div className="w-fit xl:max-w-6xl mx-auto xl:mx-0 flex flex-col xl:flex-row gap-x-[112px] gap-y-8 items-center">
-          <div className="space-y-8 mx-auto xl:mx-0 flex flex-col self-start">
-            <h2 className="text-white text-xl font-aeonikprotrial-bold">
-              {isAnalysisComplete ? (
-                <div className="flex items-center gap-x-[14px]">
-                  <img
-                    src={GreenTickCircle}
-                    aria-hidden={true}
-                    className="w-6 h-6 shrink-0"
-                  />
-                  <p>Analysis Completed!</p>
-                </div>
-              ) : (
-                analysisMessage
-              )}
-            </h2>
-
-            <AnalysisChipSet
-              items={analysisItems}
-              currentIndex={currentStep}
-              completedSteps={[
-                completedSteps.competitorLandscape,
-                completedSteps.customerSegmentation,
-                completedSteps.unmetNeeds,
-                completedSteps.featureBacklog,
-              ]}
-              className="w-full xl:w-[442px]"
-              chipClassName="[@media(max-width:500px)]:text-xs"
-            />
-          </div>
-
-          <div className="w-full [@media(min-width:380px)]:w-[300px] [@media(min-width:500px)]:w-[400px] xl:w-[466px] aspect-[466/510] border border-[#272727] bg-black flex items-center justify-center">
-            <img
-              src={getGifAsPerCurrentStep(currentStep)}
-              className="w-[178px] h-[178px]"
-              alt="Analysis progress animation"
-            />
-          </div>
-        </div>
-
-        <div className="bg-black border border-[#272727] xl:h-[68px] flex items-center justify-center px-8 py-4">
-          <p className="text-gray-300 text-2xl font-aeonikprotrial-bold">
-            Wednesday has helped{" "}
-            <span className="text-[#BDA2F4]">
-              over 50 digital first companies
-            </span>{" "}
-            achieve PMF.
-          </p>
-        </div>
       </div>
-    </div>
+      <AlertDialog
+        open={showCompletionDialog}
+        onOpenChange={setShowCompletionDialog}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Analysis Completed!</AlertDialogTitle>
+            <AlertDialogDescription>
+              The analysis has been completed successfully. The report will be
+              sent to your email.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction>OK</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };
 

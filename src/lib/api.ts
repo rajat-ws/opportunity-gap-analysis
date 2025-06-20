@@ -172,8 +172,11 @@ class ApiService {
           };
         }
 
-        // If still pending, continue polling
-        if (result.status === "pending") {
+        // If still pending, or completed but without data, continue polling
+        if (
+          result.status === "pending" ||
+          (result.status === "completed" && !result.output_data)
+        ) {
           attempt++;
           if (attempt >= maxAttempts) {
             throw new Error("Analysis timed out. Please try again.");

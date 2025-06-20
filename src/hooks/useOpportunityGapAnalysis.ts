@@ -8,7 +8,7 @@ import {
   OpportunityGapRequest,
 } from "@/lib/api";
 import { validateFormData, ValidationError } from "@/lib/validation";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 export interface AnalysisState {
   isTriggering: boolean;
@@ -56,6 +56,9 @@ export const useOpportunityGapAnalysis = () => {
     pollingAttempts: 0,
   });
 
+  // Add ref to track if analysis is in progress
+  const isAnalysisInProgress = useRef(false);
+
   const triggerAnalysis = useCallback(
     async (formData: {
       marketSegment: string;
@@ -65,6 +68,14 @@ export const useOpportunityGapAnalysis = () => {
       competitorUrls: string[];
       email: string;
     }) => {
+      // Prevent duplicate API calls
+      if (isAnalysisInProgress.current) {
+        console.log("Analysis already in progress, skipping duplicate call");
+        return { success: false, error: "Analysis already in progress" };
+      }
+
+      isAnalysisInProgress.current = true;
+
       // Reset state
       setState((prev) => ({
         ...prev,
@@ -91,6 +102,7 @@ export const useOpportunityGapAnalysis = () => {
             isTriggering: false,
             validationErrors: validation.errors,
           }));
+          isAnalysisInProgress.current = false;
           return { success: false, validationErrors: validation.errors };
         }
 
@@ -128,6 +140,9 @@ export const useOpportunityGapAnalysis = () => {
           isTriggering: false,
           error: errorMessage,
         }));
+
+        // Reset the flag on error
+        isAnalysisInProgress.current = false;
         return { success: false, error: errorMessage };
       }
     },
@@ -187,6 +202,9 @@ export const useOpportunityGapAnalysis = () => {
         pollingAttempts: 0,
       }));
 
+      // Reset the flag when polling completes
+      isAnalysisInProgress.current = false;
+
       return { success: true, result, insights, completedSteps };
     } catch (error) {
       const errorMessage =
@@ -201,6 +219,9 @@ export const useOpportunityGapAnalysis = () => {
         isPolling: false,
         error: errorMessage,
       }));
+
+      // Reset the flag on error
+      isAnalysisInProgress.current = false;
       return { success: false, error: errorMessage };
     }
   }, []);
@@ -222,6 +243,9 @@ export const useOpportunityGapAnalysis = () => {
       },
       pollingAttempts: 0,
     });
+
+    // Reset the flag
+    isAnalysisInProgress.current = false;
   }, []);
 
   return {
