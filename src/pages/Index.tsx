@@ -1,35 +1,28 @@
 import AnalysisScreen from "@/components/AnalysisScreen";
-import CompetitorsLandscapeDemo from "@/components/CompetitorsLandscapeDemo";
 import MarketOpportunityForm from "@/components/MarketOpportunityForm";
 import { useOpportunityGapAnalysis } from "@/hooks/useOpportunityGapAnalysis";
-import { AnalysisOutputResponse } from "@/lib/api";
 import { FormData } from "@/lib/validation";
 import { useCallback, useState } from "react";
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState<
-    "form" | "analysis" | "reports"
-  >("form");
+  const [currentStep, setCurrentStep] = useState<"form" | "analysis">("form");
   const [formData, setFormData] = useState<FormData | null>(null);
-  const [analysisData, setAnalysisData] =
-    useState<AnalysisOutputResponse | null>(null);
 
-  const { isTriggering, validationErrors, error } = useOpportunityGapAnalysis();
+  const {
+    isTriggering,
+    validationErrors,
+    error,
+    triggerAnalysis,
+    pollForResults,
+    result,
+    completedSteps,
+    pollingAttempts,
+  } = useOpportunityGapAnalysis();
 
   const handleFormSubmit = useCallback((data: FormData) => {
-    console.log("Form submitted:", data);
     setFormData(data);
     setCurrentStep("analysis");
   }, []);
-
-  const handleAnalysisComplete = useCallback(
-    (data?: AnalysisOutputResponse) => {
-      console.log("Analysis complete", data);
-      setAnalysisData(data || null);
-      setCurrentStep("reports");
-    },
-    []
-  );
 
   const renderCurrentStep = () => {
     switch (currentStep) {
@@ -45,12 +38,15 @@ const Index = () => {
       case "analysis":
         return formData ? (
           <AnalysisScreen
-            onComplete={handleAnalysisComplete}
             formData={formData}
+            triggerAnalysis={triggerAnalysis}
+            pollForResults={pollForResults}
+            result={result}
+            completedSteps={completedSteps}
+            pollingAttempts={pollingAttempts}
+            error={error}
           />
         ) : null;
-      case "reports":
-        return <CompetitorsLandscapeDemo analysisData={analysisData} />;
       default:
         return null;
     }
