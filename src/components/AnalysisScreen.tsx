@@ -68,6 +68,28 @@ const AnalysisScreen = ({
   const hasStartedAnalysis = useRef(false);
 
   useEffect(() => {
+    if (!hasStartedAnalysis.current && formData) {
+      hasStartedAnalysis.current = true;
+      const {
+        marketSegment,
+        userPersona,
+        problemSolving,
+        features,
+        competitorUrls,
+        email,
+      } = formData;
+      triggerAnalysis({
+        marketSegment,
+        userPersona,
+        problemSolving,
+        features,
+        competitorUrls,
+        email,
+      });
+    }
+  }, [formData, triggerAnalysis]);
+
+  useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentGifIndex((prevIndex) => (prevIndex + 1) % gifs.length);
     }, 20000); // Change GIF every 20 seconds
