@@ -40,7 +40,7 @@ const AnalysisChipSet: React.FC<AnalysisChipSetProps> = ({
       const state = getChipState(index);
       return (
         <AnalysisChip
-          key={`analysis-${item.text}-${index}`}
+          key={`analysis-${item.text}`}
           state={state}
           icon={item.icon}
           className={cn(chipClassName)}
