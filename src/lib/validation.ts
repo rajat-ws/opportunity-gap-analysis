@@ -5,6 +5,15 @@ export interface ValidationError {
   message: string;
 }
 
+export interface FormData {
+  marketSegment: string;
+  userPersona: string;
+  problemSolving: string;
+  features: string;
+  competitorUrls: string[];
+  email: string;
+}
+
 export interface FormValidationResult {
   isValid: boolean;
   errors: ValidationError[];
@@ -72,13 +81,7 @@ export const validateCompetitorUrls = (urls: string[]): string | null => {
   return null;
 };
 
-export const validateFormData = (formData: {
-  marketSegment: string;
-  userPersona: string;
-  problemSolving: string;
-  competitorUrls: string[];
-  email: string;
-}): FormValidationResult => {
+export const validateFormData = (formData: FormData): FormValidationResult => {
   const errors: ValidationError[] = [];
 
   // Validate required fields

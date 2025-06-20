@@ -3,16 +3,8 @@ import CompetitorsLandscapeDemo from "@/components/CompetitorsLandscapeDemo";
 import MarketOpportunityForm from "@/components/MarketOpportunityForm";
 import { useOpportunityGapAnalysis } from "@/hooks/useOpportunityGapAnalysis";
 import { AnalysisOutputResponse } from "@/lib/api";
+import { FormData } from "@/lib/validation";
 import { useCallback, useState } from "react";
-
-interface FormData {
-  marketSegment: string;
-  userPersona: string;
-  problemSolving: string;
-  features: string;
-  competitorUrls: string[];
-  email: string;
-}
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState<

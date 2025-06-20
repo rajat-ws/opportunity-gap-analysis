@@ -1,5 +1,6 @@
 import { useOpportunityGapAnalysis } from "@/hooks/useOpportunityGapAnalysis";
 import { AnalysisOutputResponse } from "@/lib/api";
+import { FormData } from "@/lib/validation";
 import { useEffect, useState } from "react";
 import AnalyticalSkillGif from "../../public/gifs/analytical-skill.gif";
 import SeoGif from "../../public/gifs/seo.gif";
@@ -17,14 +18,7 @@ const getGifAsPerCurrentStep = (currentStep: number): string => {
 
 interface AnalysisScreenProps {
   onComplete: (analysisData?: AnalysisOutputResponse) => void;
-  formData: {
-    marketSegment: string;
-    userPersona: string;
-    problemSolving: string;
-    features: string;
-    competitorUrls: string[];
-    email: string;
-  };
+  formData: FormData;
 }
 
 const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {

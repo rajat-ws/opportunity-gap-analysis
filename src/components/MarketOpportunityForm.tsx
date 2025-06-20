@@ -4,20 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { cn } from "@/lib/utils";
-import { ValidationError, validateFormData } from "@/lib/validation";
+import { FormData, ValidationError, validateFormData } from "@/lib/validation";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import Arrow from "../../public/svg/arrow.svg";
 import Plus from "../../public/svg/plus-white.svg";
 import HeroBanner from "./HeroBanner";
-
-interface FormData {
-  marketSegment: string;
-  userPersona: string;
-  problemSolving: string;
-  features: string;
-  competitorUrls: string[];
-  email: string;
-}
 
 interface MarketOpportunityFormProps {
   onNext: (data: FormData) => void;
