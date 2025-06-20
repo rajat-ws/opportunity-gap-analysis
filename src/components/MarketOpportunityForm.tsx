@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { cn } from "@/lib/utils";
-import { ValidationError } from "@/lib/validation";
+import { ValidationError, validateFormData } from "@/lib/validation";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import Arrow from "../../public/svg/arrow.svg";
 import Plus from "../../public/svg/plus-white.svg";
@@ -127,6 +127,10 @@ const MarketOpportunityForm = ({
     email: "",
   });
   const [mascotSrc, setMascotSrc] = useState<string | null>(null);
+  const [showValidation, setShowValidation] = useState(false);
+  const [localValidationErrors, setLocalValidationErrors] = useState<
+    ValidationError[]
+  >([]);
 
   // Use ref to access current formData without causing re-renders
   const formDataRef = useRef(formData);
@@ -134,6 +138,15 @@ const MarketOpportunityForm = ({
 
   // Helper function to get error for a specific field
   const getFieldError = (fieldName: string): string | undefined => {
+    // Show local validation errors if validation has been triggered
+    if (showValidation) {
+      const localError = localValidationErrors.find(
+        (error) => error.field === fieldName
+      )?.message;
+      if (localError) return localError;
+    }
+
+    // Show server validation errors
     return validationErrors.find((error) => error.field === fieldName)?.message;
   };
 
@@ -176,22 +189,37 @@ const MarketOpportunityForm = ({
   const handleMarketSegmentChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setFormData((prev) => ({ ...prev, marketSegment: e.target.value }));
+      if (showValidation) {
+        setLocalValidationErrors((prev) =>
+          prev.filter((err) => err.field !== "marketSegment")
+        );
+      }
     },
-    []
+    [showValidation]
   );
 
   const handleUserPersonaChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setFormData((prev) => ({ ...prev, userPersona: e.target.value }));
+      if (showValidation) {
+        setLocalValidationErrors((prev) =>
+          prev.filter((err) => err.field !== "userPersona")
+        );
+      }
     },
-    []
+    [showValidation]
   );
 
   const handleProblemSolvingChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setFormData((prev) => ({ ...prev, problemSolving: e.target.value }));
+      if (showValidation) {
+        setLocalValidationErrors((prev) =>
+          prev.filter((err) => err.field !== "problemSolving")
+        );
+      }
     },
-    []
+    [showValidation]
   );
 
   const handleFeaturesChange = useCallback(
@@ -204,8 +232,13 @@ const MarketOpportunityForm = ({
   const handleEmailChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setFormData((prev) => ({ ...prev, email: e.target.value }));
+      if (showValidation) {
+        setLocalValidationErrors((prev) =>
+          prev.filter((err) => err.field !== "email")
+        );
+      }
     },
-    []
+    [showValidation]
   );
 
   const addCompetitorUrl = useCallback(() => {
@@ -220,23 +253,42 @@ const MarketOpportunityForm = ({
     });
   }, []);
 
-  const updateCompetitorUrl = useCallback((index: number, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      competitorUrls: prev.competitorUrls.map((url, i) =>
-        i === index ? value : url
-      ),
-    }));
-  }, []);
+  const updateCompetitorUrl = useCallback(
+    (index: number, value: string) => {
+      setFormData((prev) => ({
+        ...prev,
+        competitorUrls: prev.competitorUrls.map((url, i) =>
+          i === index ? value : url
+        ),
+      }));
+      if (showValidation) {
+        setLocalValidationErrors((prev) =>
+          prev.filter((err) => err.field !== "competitorUrls")
+        );
+      }
+    },
+    [showValidation]
+  );
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      if (isFormValid()) {
+
+      // Validate form data
+      const validationResult = validateFormData(formDataRef.current);
+
+      if (validationResult.isValid) {
+        // Clear any previous validation errors
+        setShowValidation(false);
+        setLocalValidationErrors([]);
         onNext(formDataRef.current);
+      } else {
+        // Show validation errors
+        setShowValidation(true);
+        setLocalValidationErrors(validationResult.errors);
       }
     },
-    [onNext, isFormValid]
+    [onNext]
   );
 
   return (
@@ -319,9 +371,9 @@ const MarketOpportunityForm = ({
             </div>
 
             <div className="space-y-4">
-              <label className="text-white font-medium">
-                Can you share a competitor URL?{" "}
-                <span className="text-gray-400">[Optional]</span>
+              <label className="text-white font-medium flex gap-2">
+                Can you share a competitor URL?
+                <span>[Optional]</span>
               </label>
               <div className="flex flex-wrap gap-4 items-end">
                 {formData.competitorUrls.map((url, index) => (
@@ -357,7 +409,6 @@ const MarketOpportunityForm = ({
             <MemoizedSubmitButton
               onClick={handleSubmit}
               isLoading={isLoading}
-              disabled={!isFormValid()}
             />
           </form>
 
