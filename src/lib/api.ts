@@ -134,13 +134,17 @@ class ApiService {
   // Poll for results with exponential backoff
   async pollForResults(
     id: string,
-    maxAttempts: number = 30
+    maxAttempts: number = 30,
+    onPoll?: (attempt: number) => void
   ): Promise<AnalysisOutputResponse> {
     let attempt = 0;
     const baseDelay = 2000; // 2 seconds
 
     while (attempt < maxAttempts) {
       try {
+        if (onPoll) {
+          onPoll(attempt + 1);
+        }
         const result = await this.getAnalysisOutput(id);
 
         // Log the current attempt and status

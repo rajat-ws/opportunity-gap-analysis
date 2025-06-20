@@ -39,8 +39,14 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
   const [isAnalysisComplete, setIsAnalysisComplete] = useState(false);
   const [analysisMessage, setAnalysisMessage] = useState("Analyzing...");
 
-  const { result, error, completedSteps, triggerAnalysis, pollForResults } =
-    useOpportunityGapAnalysis();
+  const {
+    result,
+    error,
+    completedSteps,
+    triggerAnalysis,
+    pollForResults,
+    pollingAttempts,
+  } = useOpportunityGapAnalysis();
 
   // Start the analysis when component mounts
   useEffect(() => {
@@ -66,7 +72,6 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
       "Analyzing...",
       "Surveying up and down..",
       "Hold on, we are almost there...",
-      "Hold on, we are almost there...",
     ];
 
     const completedStepsArray = [
@@ -84,8 +89,13 @@ const AnalysisScreen = ({ onComplete, formData }: AnalysisScreenProps) => {
         : firstIncompleteIndex;
 
     setCurrentStep(newCurrentStep);
-    setAnalysisMessage(messages[newCurrentStep]);
-  }, [completedSteps, isAnalysisComplete, analysisItems.length]);
+    setAnalysisMessage(messages[pollingAttempts % messages.length]);
+  }, [
+    completedSteps,
+    isAnalysisComplete,
+    analysisItems.length,
+    pollingAttempts,
+  ]);
 
   // Auto-navigate to next screen when all steps are completed
   useEffect(() => {

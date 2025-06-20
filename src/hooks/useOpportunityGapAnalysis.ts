@@ -24,6 +24,7 @@ export interface AnalysisState {
     unmetNeeds: boolean;
     featureBacklog: boolean;
   };
+  pollingAttempts: number;
 }
 
 export const useOpportunityGapAnalysis = () => {
@@ -41,6 +42,7 @@ export const useOpportunityGapAnalysis = () => {
       unmetNeeds: false,
       featureBacklog: false,
     },
+    pollingAttempts: 0,
   });
 
   const triggerAnalysis = useCallback(
@@ -66,6 +68,7 @@ export const useOpportunityGapAnalysis = () => {
           unmetNeeds: false,
           featureBacklog: false,
         },
+        pollingAttempts: 0,
       }));
 
       try {
@@ -124,10 +127,18 @@ export const useOpportunityGapAnalysis = () => {
       ...prev,
       isPolling: true,
       error: null,
+      pollingAttempts: 0,
     }));
 
     try {
-      const result = await apiService.pollForResults(analysisId);
+      const handlePoll = (attempt: number) => {
+        setState((prev) => ({ ...prev, pollingAttempts: attempt }));
+      };
+      const result = await apiService.pollForResults(
+        analysisId,
+        30,
+        handlePoll
+      );
 
       console.log({ result });
 
@@ -169,6 +180,7 @@ export const useOpportunityGapAnalysis = () => {
         result,
         insights,
         completedSteps,
+        pollingAttempts: 0,
       }));
 
       return { success: true, result, insights, completedSteps };
@@ -204,6 +216,7 @@ export const useOpportunityGapAnalysis = () => {
         unmetNeeds: false,
         featureBacklog: false,
       },
+      pollingAttempts: 0,
     });
   }, []);
 
